@@ -372,7 +372,7 @@ const sections = [
         <h3>MLS credentials</h3>
         <ul>
           <li>If an MLS requires a new password → update it in the Back Office under MLS Credentials</li>
-          <li>If you cannot connect to an MLS → escalate to <strong>Austin or Nico</strong> immediately</li>
+          <li>If you cannot connect to an MLS → set status to <strong>mls_issue</strong>, escalate to <strong>Austin or Nico</strong> immediately, and report to <strong>#Tech or Yaelyn on Cliq</strong></li>
         </ul>
         <h3>Syndication</h3>
         <ul>
@@ -399,68 +399,54 @@ const sections = [
     content: `
       <div class="content-page-header"><div class="num">3</div><h2>Photo Rules</h2></div>
       <div class="content-body">
-        <p class="lead">Photos are one of the most common sources of MLS compliance issues. Know these rules cold.</p>
-        <h3>Photo minimums</h3>
+        <p class="lead">The system automatically verifies photo count and content compliance. Your job is to understand <em>why</em> the rules exist so you can spot issues the seller may have missed.</p>
+
+        <div class="callout info">
+          <label>Auto-checked by the system</label>
+          Photo count and content are automatically validated before a listing can be submitted. If something is non-compliant, the system will flag it. Your role is to understand the rules — not manually count or audit every photo.
+        </div>
+
+        <h3>Why photo minimums exist</h3>
+        <p>Each MLS sets a minimum number of photos to ensure listings are competitive and informative for buyers. Listings with too few photos may be rejected by the MLS or rank poorly on portals.</p>
         <table>
-          <thead><tr><th>Property Type / MLS</th><th>Minimum Photos</th></tr></thead>
+          <thead><tr><th>Property Type / MLS</th><th>Minimum</th></tr></thead>
           <tbody>
             <tr><td>Residential (most MLS)</td><td><strong>3 photos</strong></td></tr>
             <tr><td>Land (most MLS)</td><td><strong>1 photo</strong></td></tr>
-            <tr><td>HAR (Houston MLS) — Residential</td><td><strong>6 photos minimum</strong></td></tr>
-            <tr><td>NTREIS (North Texas)</td><td><strong>1 photo minimum</strong></td></tr>
+            <tr><td>HAR (Houston MLS) — Residential</td><td><strong>6 photos</strong></td></tr>
+            <tr><td>NTREIS (North Texas)</td><td><strong>1 photo</strong></td></tr>
           </tbody>
         </table>
-        <p>There is no maximum — but most MLS and real estate portals display only the first <strong>100 photos</strong>.</p>
 
         <h3>First / primary photo rule</h3>
-        <p>The first photo <strong>must be a front exterior, rendering, aerial photo, or water view.</strong></p>
+        <p>The first photo <strong>must be a front exterior, rendering, aerial photo, or water view.</strong> This is required by most MLS to ensure buyers see the property itself first.</p>
         <div class="callout warn">
-          <label>Swimming pool does NOT qualify</label>
-          A photo of a swimming pool does not qualify as a water view. It cannot be the first photo.
+          <label>Swimming pool ≠ water view</label>
+          A pool photo does not qualify as a water view and cannot be the first photo. If the seller submitted a pool photo first, the system will flag it.
         </div>
-        <p><strong>MLS exceptions</strong> — the following allow any primary photo as long as an exterior photo is included somewhere in the set:</p>
+
+        <h3>Why certain photo content is forbidden</h3>
+        <p>The following content is not allowed in any MLS photo — MLS boards actively scan for these and can fine or remove listings:</p>
         <ul>
-          <li>Realtracs MLS</li>
-          <li>Florida GulfCoast MLS</li>
-          <li>Miami MLS</li>
-          <li>NABOR</li>
-          <li>SWVAR MLS</li>
-          <li>Beaches MLS</li>
+          <li><strong>Yard signs</strong> — agent branding is not permitted in MLS photos</li>
+          <li><strong>Watermarks or logos</strong> — MLS rules require clean, unbranded photos</li>
+          <li><strong>Faces of people</strong> — privacy requirements</li>
+          <li><strong>Explicit, political, or offensive content</strong> — MLS compliance</li>
+          <li><strong>Street view screenshots</strong> — not considered real property photography</li>
+          <li><strong>Excessive text or price overlays</strong> — especially for new construction</li>
         </ul>
 
-        <h3>Photo specifications</h3>
-        <table>
-          <thead><tr><th>Spec</th><th>Requirement</th></tr></thead>
-          <tbody>
-            <tr><td>Minimum dimensions</td><td>640 x 480 px</td></tr>
-            <tr><td>Maximum file size</td><td>32 MB</td></tr>
-            <tr><td>Recommended</td><td>1600 x 1200 px at 72 dpi, RGB, JPEG compression 85+</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Forbidden photo content</h3>
-        <ul>
-          <li>Yard signs</li>
-          <li>Watermarks or logos</li>
-          <li>Brand names</li>
-          <li>Faces of people</li>
-          <li>Explicit, political, or offensive content</li>
-          <li>Street view screenshots</li>
-        </ul>
-
-        <h3>Photo upload order</h3>
+        <h3>Upload order</h3>
         <div class="callout warn">
           <label>Upload in seller's exact order</label>
           Photos must be uploaded to the MLS in the <strong>exact same order</strong> the seller submitted them in the questionnaire. Do not reorder.
         </div>
 
-        <h3>Additional photo rules</h3>
+        <h3>Other rules to be aware of</h3>
         <ul>
-          <li><strong>Virtually staged photos</strong> must be marked — check the "Virtually Staged" checkbox if any photos have been altered (sky changed, grass colored, furniture added, etc.)</li>
-          <li><strong>Do not reuse photos</strong> for some MLS — notably <strong>Beaches MLS</strong> does not allow photo reuse even if you own the rights</li>
-          <li><strong>Floor plan photos</strong> must show living square footage to comply with MLS rules</li>
-          <li><strong>New construction:</strong> Must have at least 1 photo without rendering. Photos with virtual rendering must indicate it. Photos should not have excessive text or price overlays.</li>
-          <li><strong>Video/Virtual Tours:</strong> Most MLS allow only "Unbranded" video — no logos, contact info, agent photos, links, or QR codes in the video.</li>
+          <li><strong>Virtually staged photos</strong> must be marked — check the "Virtually Staged" checkbox if any photos were digitally altered (sky changed, grass colored, furniture added, etc.)</li>
+          <li><strong>Video/Virtual Tours:</strong> Most MLS allow only "Unbranded" video — no logos, contact info, agent photos, links, or QR codes</li>
+          <li><strong>New construction:</strong> Must include at least 1 non-rendered photo. Renders must be indicated as such.</li>
         </ul>
       </div>
     `
@@ -848,19 +834,19 @@ const sections = [
               <td>1</td>
               <td><strong>Missing unit number</strong></td>
               <td>Listing shows wrong address on MLS. Can cause listing rejection or buyers showing up at the wrong unit.</td>
-              <td>For any condo, townhouse, or multi-unit property — always check for a unit number. If the address has no unit number but the property type is a condo, stop and verify with the seller before listing.</td>
+              <td>For any condo, townhouse, or multi-unit property — always check for a unit number. If the address has no unit number but the property type is a condo, click the <strong>"Incorrect Address or Parcel Number"</strong> button. This sends an automatic email to the client and sets the property to Incomplete so they can correct it.</td>
             </tr>
             <tr>
               <td>2</td>
               <td><strong>Not adding seller contact info to showing instructions</strong></td>
-              <td>Buyers' agents cannot reach the seller. Showings don't get scheduled. Seller loses visibility and appointments.</td>
-              <td>The Showings section in Step 4 contains the seller's name, phone, and email. Every one of these fields must be entered into the MLS showing system (ShowingTime or BrokerBay). Do not skip.</td>
+              <td>ShowingTime is fully automated and does not require manual setup. BrokerBay requires configuration — skipping it means buyers' agents cannot book showings on that MLS.</td>
+              <td>ShowingTime is handled automatically — no action needed. For MLS that use <strong>BrokerBay</strong>, you must configure it manually with the seller's contact information. For all other showing systems not supported, ensure the seller has provided proper showing contact name and phone in the questionnaire.</td>
             </tr>
             <tr>
               <td>3</td>
-              <td><strong>Not activating ShowingTime or BrokerBay</strong></td>
+              <td><strong>Not activating BrokerBay</strong></td>
               <td>Agents cannot book showings through the MLS. The seller misses all showing requests that come through the system.</td>
-              <td>After entering the listing data, always configure and activate ShowingTime (or BrokerBay if that MLS uses it). Check that the seller's contact info is correctly entered and the system is active before marking the listing complete.</td>
+              <td>ShowingTime is fully automated — no activation needed. If the MLS uses <strong>BrokerBay</strong>, you must manually configure and activate it after entering the listing data. Confirm the seller's contact info is correct and the system is active before marking the listing complete.</td>
             </tr>
             <tr>
               <td>4</td>
@@ -878,13 +864,13 @@ const sections = [
               <td>6</td>
               <td><strong>Not uploading disclosures before publishing</strong></td>
               <td>MLS compliance violation — especially serious on Realcomp (Michigan) where disclosures must be uploaded before any editing or publishing.</td>
-              <td>Always upload all disclosures listed in Step 4 to the MLS before you publish the listing. This is non-negotiable.</td>
+              <td>Each property and MLS has a different required document list. On some MLS, disclosures are uploaded automatically by the system. On many others, you must upload them manually. Check which documents are required for the specific MLS and upload any that are not auto-handled before publishing.</td>
             </tr>
             <tr>
               <td>7</td>
               <td><strong>Uploading the Beycome Listing Agreement to the MLS</strong></td>
               <td>This is a private proprietary document. Uploading it publicly exposes confidential terms.</td>
-              <td>Never upload the Beycome Listing Agreement to the MLS. Exception: Smart MLS, Houston MLS, My State MLS — only upload it set to "broker private only."</td>
+              <td>Never upload the Beycome Listing Agreement to the MLS until after you have clicked <strong>"Mark As Active"</strong> first. If you upload it before marking active, it will not be properly signed and dated. Exception: Smart MLS, Houston MLS, My State MLS — only upload it set to "broker private only."</td>
             </tr>
             <tr>
               <td>8</td>
@@ -902,7 +888,7 @@ const sections = [
               <td>10</td>
               <td><strong>Not publishing same day (or within 48 hours)</strong></td>
               <td>MLS compliance issue. A delay of a day or more may require a new listing agreement to match the listing date.</td>
-              <td>Prioritize new listings. Start as soon as you pick one up. If you hit a block, set the correct status and notify Yaelyn immediately — do not let it sit.</td>
+              <td>Simply work listings in order — take the top listing in the Back Office queue first. Processing in order ensures no listing waits longer than necessary.</td>
             </tr>
           </tbody>
         </table>
@@ -925,8 +911,9 @@ const sections = [
           <tbody>
             <tr><td><strong>New</strong></td><td>Seller completed the MLS Questionnaire. Not yet reviewed or assigned by anyone.</td><td>Pick up → click Actions → "List MLS"</td></tr>
             <tr><td><strong>In Progress</strong></td><td>A rep has self-assigned and is actively working it.</td><td>Do not touch — belongs to that rep</td></tr>
-            <tr><td><strong>For Review</strong></td><td>Blocked — pending photos, manager approval, NC floor plan, ownership issue, MLS issue, or other hold.</td><td>Review notes to see what's needed</td></tr>
+            <tr><td><strong>For Review</strong></td><td>The client answered and the listing may be ready to list. If it's not yet ready, click <strong>"Change MLSQ status"</strong> to put it back to Incomplete — no need to monitor it.</td><td>Review — if ready, proceed to list. If not, use "Change MLSQ status" to set back to Incomplete.</td></tr>
             <tr><td><strong>Incomplete</strong></td><td>Something is missing. Seller needs to log back into their Beycome account to fix or upload something.</td><td>Client has been notified — monitor for update</td></tr>
+            <tr><td><strong>MLS Issue</strong></td><td>A rep could not connect to the MLS or something is blocking the listing from being published.</td><td>Check #Tech on Cliq for updates. Austin or Nico will resolve the MLS access issue.</td></tr>
             <tr><td><strong>Listed (today)</strong></td><td>Successfully published on the MLS today.</td><td>No action needed</td></tr>
           </tbody>
         </table>
@@ -943,6 +930,7 @@ const sections = [
         </div>
         <h3>Setting a listing to Incomplete</h3>
         <p>When something is missing and the seller must fix it, you set the listing to <strong>Incomplete</strong> with a specific reason and notify the client via BO notes. The standard Incomplete reasons are:</p>
+        <p>Many of these are triggered automatically by buttons in the Back Office (e.g., "Incorrect Address or Parcel Number," "Missing Ownership") which notify the client and set the status in one click. For other cases, set the status manually with a reason.</p>
         <ul>
           <li>Missing Parcel Number</li>
           <li>Missing Ownership</li>
@@ -1056,7 +1044,7 @@ const sections = [
     content: `
       <div class="content-page-header"><div class="num">11</div><h2>Step 2 — Check Parcel</h2></div>
       <div class="content-body">
-        <p class="lead">Verify the address and parcel number match exactly what the county has on record. This step is mostly automated — but you must confirm it.</p>
+        <p class="lead">Verify the address and parcel number match exactly what the county has on record. <strong>In most cases this step is already complete</strong> — the system has already matched the address and parcel. You are confirming it, not doing the lookup manually. If something doesn't match, there is usually a specific issue to resolve.</p>
         <h3>What Step 2 shows you</h3>
         <ul>
           <li><strong>Full Address</strong> — as entered by the seller</li>
@@ -1076,7 +1064,7 @@ const sections = [
         <table>
           <thead><tr><th>Issue</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>Address or parcel number doesn't match county</td><td>Set Incomplete <strong>"Missing Parcel Number"</strong> and notify client via BO notes. Click "Incorrect Address or Parcel Number" button.</td></tr>
+            <tr><td>Address or parcel number doesn't match county (e.g., missing unit number, parcel matches a different property)</td><td>Click <strong>"Incorrect Address or Parcel Number"</strong> button — this automatically sends an email to the client and sets the listing to Incomplete.</td></tr>
             <tr><td>Address not found (new construction or land)</td><td>Specify the city in the dropdown that appears. Use 0 as street number if no number exists.</td></tr>
             <tr><td>Parcel numbers differ between system and county</td><td>Use "Fix Parcel Number" button to correct. Notify Yaelyn.</td></tr>
           </tbody>
@@ -1215,9 +1203,9 @@ const sections = [
           <li><strong>Open the remote access app</strong> (VPN remote desktop) and run the automation recipe for this property</li>
           <li><strong>Fill in anything the automation missed manually</strong> — review every field</li>
           <li><strong>Enter all questionnaire data</strong> — every field the seller filled out must go into the MLS exactly</li>
-          <li><strong>Upload disclosures immediately</strong> — before editing or publishing (especially critical for Realcomp MLS in Michigan)</li>
           <li><strong>Upload photos</strong> in the exact same order the seller submitted them</li>
-          <li><strong>Configure ShowingTime or BrokerBay</strong> with the seller's contact information (name, phone, email, showing remarks)</li>
+          <li><strong>Upload disclosures</strong> — check which documents are required for this MLS (some are uploaded automatically, many must be done manually)</li>
+          <li><strong>Configure BrokerBay</strong> if this MLS uses it — ShowingTime is fully automated. For unsupported showing systems, ensure proper contact name and phone are in the questionnaire. Note: some MLS have Virtual Tour as a separate step — check and complete if applicable.</li>
           <li><strong>Publish / Activate immediately</strong> — no waiting for client confirmation</li>
         </ol>
 
@@ -1229,24 +1217,9 @@ const sections = [
         <h3>Automation issues</h3>
         <ul>
           <li>If the automation gets stuck → set status to <strong>"Automation Error"</strong> and report to <strong>#Tech on Cliq</strong></li>
+          <li>If you cannot connect to the MLS or something is blocking publishing → set status to <strong>mls_issue</strong>, take a screenshot, and click <strong>"Report MLS Issue"</strong> button. This creates a ticket for Tech automatically. Also message Austin or Nico on Cliq.</li>
           <li>If the MLS has a technical issue → propose listing on <strong>My State MLS</strong> as temporary alternative (send email via BO — no client confirmation needed) and report to #Tech</li>
         </ul>
-
-        <h3>Showings setup — do not skip</h3>
-        <p>The Showings section shows the seller's contact information for ShowingTime. You must enter this into the MLS showing system. Missing this means buyers' agents cannot schedule showings.</p>
-        <table>
-          <thead><tr><th>Field</th><th>Where to get it</th></tr></thead>
-          <tbody>
-            <tr><td>Contact Full Name</td><td>Showings section in Step 4</td></tr>
-            <tr><td>Contact Phone</td><td>Showings section in Step 4</td></tr>
-            <tr><td>Contact Email</td><td>Showings section in Step 4</td></tr>
-            <tr><td>Showing Remark</td><td>Showings section in Step 4 (e.g., "Prior to any showings contact [name] directly at [phone]")</td></tr>
-          </tbody>
-        </table>
-        <div class="callout info">
-          <label>ShowingTime vs BrokerBay</label>
-          Most MLS use <strong>ShowingTime</strong>. Some MLS have replaced it with <strong>BrokerBay</strong>. Check which one applies for the MLS you are listing on. Both serve the same purpose — the seller receives showing requests directly.
-        </div>
 
         <h3>Key rules while in the MLS</h3>
         <ul>
@@ -1292,12 +1265,12 @@ const sections = [
           </li>
           <li>
             <strong>Mark as Active</strong><br>
-            Click <strong>"Mark as Active"</strong> — this updates the status in the Back Office to Listed and triggers the seller's notification.
+            Click <strong>"Mark as Active"</strong> — this updates the status in the Back Office to Listed and triggers the seller's notification. <strong>Important:</strong> if you need to upload the Beycome Listing Agreement to the MLS (e.g., Smart MLS, Houston MLS, My State MLS), you must click "Mark As Active" <em>first</em>. Uploading before activating means the agreement will not be properly signed and dated.
           </li>
         </ol>
-        <div class="callout warn">
-          <label>Do not send the MLS PDF to the client</label>
-          Do not email the MLS PDF Sheet to the client unless they specifically request it. If required, do not send by email — upload it to the Back Office under <strong>Actions → Contract/Addendum</strong>.
+        <div class="callout info">
+          <label>MLS PDF delivery is automatic</label>
+          Whether or not the MLS PDF is sent to the client is handled automatically by a checkbox in the system — it is pre-checked or unchecked based on whether the client requested it. You do not need to manually manage this.
         </div>
         <h3>Second MLS (if applicable)</h3>
         <p>If the seller paid for a second MLS, publish on the second MLS after completing the first. Same process — reserve session, run automation, enter data, upload photos and disclosures, configure showings, activate.</p>
@@ -1338,10 +1311,10 @@ const sections = [
               <li><label><input type="checkbox"> List the property as-is — the address might not have a unit number</label></li>
               <li><label><input type="checkbox"> Stop before proceeding to Step 4</label></li>
               <li><label><input type="checkbox"> Check the questionnaire and county records to see if a unit number exists</label></li>
-              <li><label><input type="checkbox"> If no unit number can be confirmed, set Incomplete and notify the seller via BO notes to provide the correct unit number</label></li>
+              <li><label><input type="checkbox"> Click <strong>"Incorrect Address or Parcel Number"</strong> button — this automatically notifies the seller and sets the listing to Incomplete</label></li>
               <li><label><input type="checkbox"> Message Yaelyn on Cliq if unsure how to proceed</label></li>
             </ul>
-            <div class="callout success"><label>Correct approach</label>Never list a condo without verifying the unit number. Stop, check county records and the questionnaire. If it can't be confirmed, set Incomplete and notify the seller. Never guess or list with an incomplete address.</div>
+            <div class="callout success"><label>Correct approach</label>Never list a condo without verifying the unit number. Click the <strong>"Incorrect Address or Parcel Number"</strong> button in the Back Office — this automatically sends an email to the client to update it and sets the listing to Incomplete. Never guess or list with an incomplete address.</div>
           </div>
         </div>
 
@@ -1351,11 +1324,11 @@ const sections = [
             <p>You're on Step 3 (Ownership). County records show <strong>two legal owners: John Smith and Mary Smith</strong>. The Beycome listing agreement has only <strong>John Smith's signature</strong>. The seller is messaging asking why it's taking so long. What do you do?</p>
             <ul class="scenario-checklist">
               <li><label><input type="checkbox"> List it anyway — one signature is usually enough</label></li>
-              <li><label><input type="checkbox"> Set the listing to Incomplete "Missing Signature"</label></li>
+              <li><label><input type="checkbox"> Click the <strong>"Missing Ownership"</strong> button — this automatically notifies the client and sets the listing to Incomplete</label></li>
               <li><label><input type="checkbox"> Notify the client via BO notes that Mary Smith must also sign the listing agreement before the property can be listed</label></li>
               <li><label><input type="checkbox"> Do not rush listing because the seller is impatient — ownership verification is non-negotiable</label></li>
             </ul>
-            <div class="callout success"><label>Correct approach</label>When county shows two owners, both must sign. Set Incomplete "Missing Signature," notify the seller via BO notes, and wait. Do not list under any pressure until all owners have signed.</div>
+            <div class="callout success"><label>Correct approach</label>When county shows two owners, both must sign. Click the <strong>"Missing Ownership"</strong> button in the Back Office — this automatically notifies the client and sets the listing to Incomplete. Do not list under any pressure until all owners have signed.</div>
           </div>
         </div>
 
@@ -1367,10 +1340,11 @@ const sections = [
               <li><label><input type="checkbox"> Keep trying the automation until it works</label></li>
               <li><label><input type="checkbox"> Set the listing status to "Automation Error"</label></li>
               <li><label><input type="checkbox"> Report the issue to #Tech on Cliq with the listing ID and MLS name</label></li>
+              <li><label><input type="checkbox"> Take a screenshot of the error and click the <strong>"Report MLS Issue"</strong> button — this automatically creates a ticket for the Tech team</label></li>
               <li><label><input type="checkbox"> Release the MLS reservation so no one else is locked out</label></li>
               <li><label><input type="checkbox"> Also verify the NC floor plan was uploaded before the automation issue — if not, set Incomplete "Missing Floorplan" as well</label></li>
             </ul>
-            <div class="callout success"><label>Correct approach</label>If automation is stuck, set status to "Automation Error" and report to #Tech on Cliq immediately with the listing ID. Do not leave the MLS reserved if you're not actively working in it. NC properties also require a verified certified floor plan — make sure that's confirmed separately.</div>
+            <div class="callout success"><label>Correct approach</label>If automation is stuck, set status to "Automation Error", take a screenshot of the error, and click the <strong>"Report MLS Issue"</strong> button — this automatically creates a ticket for the Tech team. Also message #Tech on Cliq with the listing ID. Do not leave the MLS reserved if you're not actively working in it. NC properties also require a verified certified floor plan — make sure that's confirmed separately.</div>
           </div>
         </div>
 
