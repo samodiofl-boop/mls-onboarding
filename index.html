@@ -1905,7 +1905,7 @@ function isQuizPassed(sectionId) {
   return attempt && attempt.passed === true;
 }
 
-function displayPage(pageNum) {
+function displayPage(pageNum, noScroll) {
   if (pageNum < 1 || pageNum > sections.length) return;
   currentPage = pageNum;
   appState.currentPage = pageNum;
@@ -1936,7 +1936,7 @@ function displayPage(pageNum) {
   buildJumpNav();
   updateStats();
   renderAssessments(section.id);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!noScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
   saveState();
 }
 
@@ -2218,7 +2218,11 @@ function resetFinalQuiz() {
     appState.completedSections = appState.completedSections.filter(id => id !== 16);
   }
   saveState();
-  displayPage(16);
+  displayPage(16, true);
+  setTimeout(() => {
+    const quiz = document.querySelector('.assessment-block');
+    if (quiz) quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 function resetQuiz(sectionId) {
@@ -2227,7 +2231,11 @@ function resetQuiz(sectionId) {
     appState.completedSections = appState.completedSections.filter(id => id !== sectionId);
   }
   saveState();
-  displayPage(currentPage);
+  displayPage(currentPage, true);
+  setTimeout(() => {
+    const quiz = document.querySelector('.assessment-block');
+    if (quiz) quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 // ── State filter ──────────────────────────────────────────────────────────────
