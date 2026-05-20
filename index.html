@@ -205,7 +205,14 @@
           <p>Work through each section in order, take every quiz seriously, and contact <strong>Yaelyn on Cliq</strong> whenever you have a question. When in doubt, ask before you act.</p>
         </div>
         <div class="toc-list" id="toc-list"></div>
-        <button class="cta-button" onclick="startTraining()">Start Training →</button>
+        <div class="name-entry">
+          <label for="trainee-name" style="display:block;font-weight:700;margin-bottom:8px;color:var(--navy);font-size:15px;">Enter your full name to begin</label>
+          <input type="text" id="trainee-name" placeholder="e.g. Alvaro Martinez"
+            oninput="onNameInput(this.value)"
+            style="width:100%;max-width:360px;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box;transition:border-color .2s;font-family:inherit;">
+          <p id="name-error" style="color:#e53e3e;font-size:13px;margin:6px 0 0;display:none;">Please enter your full name to continue.</p>
+        </div>
+        <button class="cta-button" id="start-btn" onclick="startTraining()" style="opacity:0.4;pointer-events:none;">Start Training →</button>
       </div>
     </div>
 
@@ -1778,7 +1785,7 @@ let currentPage = 1;
 let appState = loadState();
 
 function getDefaultState() {
-  return { started: false, currentPage: 1, visitedSections: [], completedSections: [], quizAttempts: {} };
+  return { started: false, currentPage: 1, visitedSections: [], completedSections: [], quizAttempts: {}, traineeName: '', completionCount: 0 };
 }
 
 function loadState() {
@@ -1792,6 +1799,21 @@ function saveState() {
   try { localStorage.setItem('beycome-mls-training-v2', JSON.stringify(appState)); } catch(e) {}
 }
 
+// ── Google Sheets logging ─────────────────────────────────────────────────────
+const SHEETS_URL = 'YOUR_APPS_SCRIPT_URL_HERE'; // ← paste your deployed Apps Script URL here
+
+function logToSheets(payload) {
+  if (!SHEETS_URL || SHEETS_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+  try {
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {}
+}
+
 // ── UI helpers ────────────────────────────────────────────────────────────────
 function goHome() {
   document.getElementById('welcome-view').classList.add('active');
@@ -1799,7 +1821,29 @@ function goHome() {
   document.getElementById('quick-ref-btn').style.display = 'none';
 }
 
+function onNameInput(val) {
+  const name = val.trim();
+  const btn = document.getElementById('start-btn');
+  const err = document.getElementById('name-error');
+  if (name.length >= 2) {
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    if (err) err.style.display = 'none';
+  } else {
+    btn.style.opacity = '0.4';
+    btn.style.pointerEvents = 'none';
+  }
+}
+
 function startTraining() {
+  const nameInput = document.getElementById('trainee-name');
+  const name = nameInput ? nameInput.value.trim() : appState.traineeName;
+  if (!name || name.length < 2) {
+    const err = document.getElementById('name-error');
+    if (err) err.style.display = 'block';
+    return;
+  }
+  appState.traineeName = name;
   document.getElementById('welcome-view').classList.remove('active');
   document.getElementById('content-view').classList.add('active');
   document.getElementById('quick-ref-btn').style.display = 'block';
@@ -2104,13 +2148,16 @@ function submitQuiz(sectionId) {
 
   const total = selectedQuestions.length;
   const passed = correctCount / total >= PASSING_SCORE;
+  const prevAttempt = appState.quizAttempts[String(sectionId)];
+  const attemptNum = (prevAttempt && prevAttempt.attemptNum ? prevAttempt.attemptNum : 0) + 1;
 
   appState.quizAttempts[String(sectionId)] = {
     correctCount,
     total,
     answers,
     passed,
-    selectedIds
+    selectedIds,
+    attemptNum
   };
 
   // Only add to completedSections if passed
@@ -2118,8 +2165,27 @@ function submitQuiz(sectionId) {
     appState.completedSections.push(sectionId);
   }
 
+  // Increment completion count when Final Cert is passed
+  if (sectionId === 16 && passed) {
+    appState.completionCount = (appState.completionCount || 0) + 1;
+  }
+
   saveState();
   updateStats();
+
+  // Log to Google Sheets
+  const sectionObj = sections.find(s => s.id === sectionId);
+  logToSheets({
+    timestamp: new Date().toISOString(),
+    name: appState.traineeName || 'Unknown',
+    event: sectionId === 16 ? 'final_certification' : 'quiz_attempt',
+    sectionNum: sectionId,
+    sectionTitle: sectionObj ? sectionObj.title : `Section ${sectionId}`,
+    score: `${correctCount}/${total}`,
+    passed: passed ? 'Yes' : 'No',
+    attemptNum,
+    trainingRun: appState.completionCount || 0
+  });
 
   const status = document.getElementById(`quiz-status-${sectionId}`);
   if (status) status.textContent = `Score: ${correctCount}/${total}`;
@@ -2198,6 +2264,16 @@ function printQuickRef() {
 // ── Init ──────────────────────────────────────────────────────────────────────
 buildTOC();
 updateStats();
+
+// Pre-fill name if returning user
+if (appState.traineeName) {
+  const nameInput = document.getElementById('trainee-name');
+  if (nameInput) {
+    nameInput.value = appState.traineeName;
+    onNameInput(appState.traineeName);
+  }
+}
+
 if (appState.started) {
   document.getElementById('welcome-view').classList.remove('active');
   document.getElementById('content-view').classList.add('active');
