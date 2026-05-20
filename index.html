@@ -304,7 +304,7 @@ const sections = [
           <li>Missing Signature</li>
           <li>Missing Floorplan (NC only)</li>
           <li>Missing Notarization (NC, CA only)</li>
-          <li>Others (for tech/MLS issues)</li>
+          <li>Automation Error (for automation stuck or tech/MLS issues)</li>
         </ul>
         <div class="callout warn">
           <label>Incomplete questionnaires expire</label>
@@ -351,7 +351,7 @@ const sections = [
           <li>Click "Automatic List" in the BO first</li>
           <li>Then open the remote access app to run the recipe</li>
           <li>Fill in anything the automation misses manually</li>
-          <li>If the automation gets stuck → set Incomplete "Others" and report to <strong>#Tech on Cliq</strong></li>
+          <li>If the automation gets stuck → set status to <strong>"Automation Error"</strong> and report to <strong>#Tech on Cliq</strong></li>
         </ul>
         <div class="callout info">
           <label>OTP / PIN code</label>
@@ -579,7 +579,7 @@ const sections = [
 
         <h3>Automation issues</h3>
         <ul>
-          <li>If the automation gets stuck → set Incomplete <strong>"Others"</strong> and report to <strong>#Tech on Cliq</strong></li>
+          <li>If the automation gets stuck → set status to <strong>"Automation Error"</strong> and report to <strong>#Tech on Cliq</strong></li>
           <li>If the MLS has a technical issue → propose listing on <strong>My State MLS</strong> as temporary alternative (send email via BO — no client confirmation needed) and report to #Tech</li>
         </ul>
 
@@ -852,11 +852,11 @@ const sections = [
   },
   {
     id: 12,
-    title: "Forbidden Types & Concierge",
+    title: "Forbidden Listing Types",
     content: `
-      <div class="content-page-header"><div class="num">12</div><h2>Forbidden Listing Types & What Requires Concierge</h2></div>
+      <div class="content-page-header"><div class="num">12</div><h2>Forbidden Listing Types</h2></div>
       <div class="content-body">
-        <p class="lead">Know the difference: some listing types are absolutely forbidden with no exceptions. Others have limited support that requires the Concierge package.</p>
+        <p class="lead">These listing types are forbidden. If a seller requests any of these, do not proceed — escalate to Yaelyn.</p>
 
         <h3>Absolutely forbidden — no exceptions, no packages</h3>
         <table>
@@ -869,20 +869,6 @@ const sections = [
           </tbody>
         </table>
 
-        <h3>Limited support — requires Concierge Package</h3>
-        <table>
-          <thead><tr><th>Listing Type</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>Short Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>REO Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>Probate Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>Owner Financing</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>Lease Option</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>Equity Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>Installment Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-            <tr><td>Wraparound Mortgage Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
-          </tbody>
-        </table>
         <div class="callout info">
           <label>Novation = Wholesale</label>
           Novation is treated as Wholesale. See Wholesale rules below.
@@ -1279,12 +1265,12 @@ const sections = [
             <p>You're in Step 4 for a <strong>North Carolina property</strong>. You click "Automatic List" and connect to the remote access app, but the automation gets stuck and shows an error. The MLS reservation is running out. What do you do?</p>
             <ul class="scenario-checklist">
               <li><label><input type="checkbox"> Keep trying the automation until it works</label></li>
-              <li><label><input type="checkbox"> Set the listing to Incomplete "Others"</label></li>
+              <li><label><input type="checkbox"> Set the listing status to "Automation Error"</label></li>
               <li><label><input type="checkbox"> Report the issue to #Tech on Cliq with the listing ID and MLS name</label></li>
               <li><label><input type="checkbox"> Release the MLS reservation so no one else is locked out</label></li>
               <li><label><input type="checkbox"> Also verify the NC floor plan was uploaded before the automation issue — if not, set Incomplete "Missing Floorplan" as well</label></li>
             </ul>
-            <div class="callout success"><label>Correct approach</label>If automation is stuck, set Incomplete "Others" and report to #Tech immediately with the listing ID. Do not leave the MLS reserved if you're not actively working in it. NC properties also require a verified certified floor plan — make sure that's confirmed separately.</div>
+            <div class="callout success"><label>Correct approach</label>If automation is stuck, set status to "Automation Error" and report to #Tech on Cliq immediately with the listing ID. Do not leave the MLS reserved if you're not actively working in it. NC properties also require a verified certified floor plan — make sure that's confirmed separately.</div>
           </div>
         </div>
 
@@ -1397,10 +1383,10 @@ const quizConfig = {
       },
       {
         id: 's12q2',
-        prompt: 'A seller has a Short Sale situation. What do they need to proceed with Beycome?',
-        options: ['Nothing extra — Short Sale is a standard listing type', 'It is forbidden like auctions — cannot be done', 'They need the Concierge Package for limited support', 'They need a notarized POA from the lender'],
-        correct: 2,
-        explanation: 'Short Sale has limited support but requires the Concierge Package. It is not forbidden, but it cannot be listed on a Basic or Enhanced package.'
+        prompt: 'A seller says their property is a wholesale/equitable interest deal and they are in Illinois. What do you do?',
+        options: ['List it — wholesale is only restricted on some MLS', 'Refuse — wholesale is forbidden by state law in Illinois', 'Ask Yaelyn for a case-by-case exception', 'List on My State MLS instead'],
+        correct: 1,
+        explanation: 'Wholesale/Equitable Interest is forbidden by state law in Illinois. It is also forbidden in SC, DC, MA, MD, NJ, NY, OK, PA, RI, UT, and WI. Escalate to Yaelyn if a seller presents this situation.'
       }
     ]
   },
@@ -1424,9 +1410,9 @@ const quizConfig = {
       {
         id: 's16q3',
         prompt: 'The MLS is having a technical issue and you cannot complete the listing. What is the correct action?',
-        options: ['Wait until tomorrow and try again', 'Ask the seller to contact the MLS directly', 'Set Incomplete "Others," report to #Tech on Cliq, and propose My State MLS as a temporary alternative', 'Cancel the listing and issue a refund'],
+        options: ['Wait until tomorrow and try again', 'Ask the seller to contact the MLS directly', 'Set status to "Automation Error," report to #Tech on Cliq, and propose My State MLS as a temporary alternative', 'Cancel the listing and issue a refund'],
         correct: 2,
-        explanation: 'If the MLS has a technical issue, set Incomplete "Others", report to #Tech on Cliq, and propose listing on My State MLS temporarily until the issue is resolved.'
+        explanation: 'If the MLS has a technical issue, set status to "Automation Error", report to #Tech on Cliq, and propose listing on My State MLS temporarily until the issue is resolved.'
       },
       {
         id: 's16q4',
@@ -1462,13 +1448,13 @@ function getDefaultState() {
 
 function loadState() {
   try {
-    const saved = localStorage.getItem('beycome-mls-training');
+    const saved = localStorage.getItem('beycome-mls-training-v2');
     return saved ? JSON.parse(saved) : getDefaultState();
   } catch(e) { return getDefaultState(); }
 }
 
 function saveState() {
-  try { localStorage.setItem('beycome-mls-training', JSON.stringify(appState)); } catch(e) {}
+  try { localStorage.setItem('beycome-mls-training-v2', JSON.stringify(appState)); } catch(e) {}
 }
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
@@ -1556,7 +1542,10 @@ function displayPage(pageNum) {
 }
 
 function renderAssessments(sectionId) {
-  if (sectionId === 16) { renderCertProgress(); }
+  if (sectionId === 16) {
+    renderCertProgress();
+    if (appState.quizAttempts['16']) { showCertificate(); return; }
+  }
   if (quizConfig[sectionId]) renderQuiz(sectionId);
 }
 
@@ -1582,6 +1571,36 @@ function renderCertProgress() {
       return `<div class="badge${earned ? '' : ' locked'}"><span class="badge-icon">${b.icon}</span>${b.title}</div>`;
     }).join('');
   }
+}
+
+function showCertificate() {
+  const container = document.getElementById('content-container');
+  const attempt = appState.quizAttempts['16'];
+  const score = attempt ? attempt.correctCount : 0;
+  const total = attempt ? attempt.total : 4;
+  const allAttempts = Object.values(appState.quizAttempts);
+  const totalCorrect = allAttempts.reduce((sum, a) => sum + (a.correctCount || 0), 0);
+  const totalQ = allAttempts.reduce((sum, a) => sum + (a.total || 0), 0);
+  const earnedBadges = badgeConfig.filter(b => b.rule(appState));
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  container.innerHTML += `
+    <div style="margin-top:40px;border:2px solid var(--indigo);border-radius:16px;padding:40px;text-align:center;background:linear-gradient(135deg,#f4f6ff 0%,#fff 60%,#fff2ec 100%);">
+      <div style="font-size:48px;margin-bottom:12px;">🎓</div>
+      <h2 style="font-size:24px;font-weight:900;color:var(--navy);margin-bottom:6px;">MLS Data Entry Certified</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:28px;">Beycome MLS Team · ${today}</p>
+      <div style="display:flex;justify-content:center;gap:40px;margin-bottom:28px;flex-wrap:wrap;">
+        <div><span style="font-size:32px;font-weight:900;color:var(--indigo);">${score}/${total}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Final Quiz</span></div>
+        <div><span style="font-size:32px;font-weight:900;color:var(--coral);">${totalCorrect}/${totalQ}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Overall Score</span></div>
+        <div><span style="font-size:32px;font-weight:900;color:var(--navy);">${earnedBadges.length}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Badges Earned</span></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px;">
+        ${earnedBadges.map(b => `<div class="badge"><span class="badge-icon">${b.icon}</span>${b.title}</div>`).join('')}
+      </div>
+      <p style="font-size:14px;color:var(--navy-soft);max-width:420px;margin:0 auto 24px;">You have completed the Beycome MLS Data Entry training. You are ready to list. When in doubt, contact <strong>Yaelyn on Cliq</strong>.</p>
+      <button class="mini-button ghost" onclick="resetFinalQuiz()" style="font-size:13px;">Retake Final Quiz</button>
+    </div>
+  `;
 }
 
 function renderQuiz(sectionId) {
@@ -1655,6 +1674,16 @@ function submitQuiz(sectionId) {
 
   const status = document.getElementById(`quiz-status-${sectionId}`);
   if (status) status.textContent = `Score: ${correctCount}/${quiz.questions.length}`;
+
+  if (sectionId === 16) {
+    setTimeout(() => showCertificate(), 600);
+  }
+}
+
+function resetFinalQuiz() {
+  delete appState.quizAttempts['16'];
+  saveState();
+  displayPage(16);
 }
 
 function resetQuiz(sectionId) {
