@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beycome MLS — Data Entry Training Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --coral: #FF9B77;
+      --coral-soft: #FFF2EC;
+      --coral-deep: #FF9B77;
+      --indigo: #5a6ad4;
+      --indigo-soft: #F4F6FF;
+      --indigo-deep: #5a6ad4;
+      --navy: #3F4854;
+      --navy-soft: #5D6875;
+      --bg: #F7F8FC;
+      --card: #FFFFFF;
+      --line: #e0e0e0;
+      --text: #3A4048;
+      --muted: #6C7480;
+      --radius: 14px;
+      --shadow: 0 2px 8px rgba(63,72,84,.08), 0 8px 24px rgba(63,72,84,.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Roboto', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 22px; }
+    main { min-height: calc(100vh - 320px); padding: 50px 0 80px; }
+    .view { display: none; }
+    .view.active { display: block; animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Header */
+    header { background: var(--card); border-bottom: 1px solid var(--line); padding: 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(63,72,84,.06); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; max-width: 1200px; margin: 0 auto; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 18px; color: var(--navy); cursor: pointer; }
+    .logo span { color: var(--coral); }
+    .header-stats { display: flex; gap: 24px; align-items: center; }
+    .stat { text-align: center; }
+    .stat-val { font-size: 18px; font-weight: 800; color: var(--navy); display: block; }
+    .stat-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .progress-bar-wrap { background: #eef0f5; height: 4px; }
+    .progress-bar { height: 4px; background: linear-gradient(90deg, var(--coral), var(--indigo)); transition: width 0.4s ease; width: 0%; }
+
+    /* Welcome Page */
+    .welcome-page { max-width: 650px; margin: 40px auto; text-align: center; }
+    .welcome-page h2 { font-size: 36px; font-weight: 800; color: var(--coral); margin-bottom: 12px; line-height: 1.2; }
+    .welcome-page .subtitle { font-size: 17px; color: var(--navy-soft); margin-bottom: 36px; line-height: 1.6; }
+    .welcome-page .intro-text { font-size: 15px; color: var(--text); margin-bottom: 50px; line-height: 1.8; text-align: left; }
+    .toc-list { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 0; margin-bottom: 50px; overflow: hidden; box-shadow: var(--shadow); }
+    .toc-item { padding: 14px 22px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 14px; text-align: left; }
+    .toc-item:last-child { border-bottom: none; }
+    .toc-item .num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 8px; background: var(--indigo-soft); color: var(--indigo-deep); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+    .toc-item .title { font-weight: 600; color: var(--navy); font-size: 14px; }
+    .cta-button { background: var(--navy); color: #fff; border: none; padding: 16px 48px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: inline-block; }
+    .cta-button:hover { background: #2d3540; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(63,72,84,.2); }
+
+    /* Content Layout */
+    .content-layout { display: grid; grid-template-columns: 220px 1fr; gap: 28px; max-width: 1200px; margin: 0 auto; }
+    .jump-nav { position: sticky; top: 90px; max-height: calc(100vh - 120px); overflow-y: auto; }
+    .jump-nav-list { display: flex; flex-direction: column; gap: 2px; }
+    .jump-link { background: none; border: none; text-align: left; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; line-height: 1.4; }
+    .jump-link:hover { background: var(--indigo-soft); color: var(--indigo-deep); }
+    .jump-link.active { background: var(--indigo-soft); color: var(--indigo-deep); }
+    .jump-link.done { color: #22a06b; }
+    .jump-link.done::after { content: ' ✓'; }
+
+    /* Content Page */
+    .content-page { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 50px; min-height: calc(100vh - 400px); }
+    .content-page-header { display: flex; align-items: center; gap: 16px; margin-bottom: 36px; border-bottom: 2px solid var(--indigo-soft); padding-bottom: 24px; }
+    .content-page .num { flex-shrink: 0; width: 42px; height: 42px; border-radius: 10px; background: var(--indigo-soft); color: var(--indigo-deep); font-weight: 800; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+    .content-page h2 { font-size: 26px; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; }
+    .content-body { font-size: 15px; line-height: 1.8; color: var(--text); }
+    .content-body p { margin-bottom: 16px; }
+    .content-body p.lead { font-size: 16px; color: var(--navy-soft); font-weight: 500; margin-bottom: 24px; }
+    .content-body h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-top: 28px; margin-bottom: 12px; }
+    .content-body h4 { font-size: 13px; font-weight: 700; color: var(--navy); margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .content-body table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+    .content-body th { background: var(--navy); color: #fff; text-align: left; padding: 10px 12px; font-weight: 600; font-size: 12px; }
+    .content-body td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .content-body tbody tr:nth-child(even) { background: #FAFBFF; }
+    .content-body ul, .content-body ol { margin: 12px 0 12px 26px; }
+    .content-body li { margin-bottom: 7px; }
+    .content-body strong { font-weight: 700; color: var(--navy); }
+    .content-body a { color: var(--indigo-deep); text-decoration: none; font-weight: 600; }
+    .content-body a:hover { color: var(--coral); text-decoration: underline; }
+
+    /* Callouts */
+    .callout { border-radius: 10px; padding: 14px 16px; margin: 18px 0; font-size: 14px; border-left: 4px solid; }
+    .callout.info { border-left-color: var(--indigo-deep); background: var(--indigo-soft); }
+    .callout.warn { border-left-color: var(--coral); background: var(--coral-soft); }
+    .callout.success { border-left-color: #22a06b; background: #f0faf5; }
+    .callout label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; color: var(--navy); }
+
+    /* Tags */
+    .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.03em; margin: 2px; }
+    .tag.forbidden { background: #fdecea; color: #c62828; }
+    .tag.concierge { background: var(--coral-soft); color: var(--coral-deep); }
+    .tag.required { background: var(--indigo-soft); color: var(--indigo-deep); }
+    .tag.warning { background: #fff8e1; color: #f57f17; }
+
+    /* Nav Footer */
+    .nav-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 50px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .nav-button { background: var(--navy); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .nav-button:hover:not(:disabled) { background: #2d3540; transform: translateY(-1px); }
+    .nav-button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .nav-counter { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+    /* Assessment */
+    .assessment-block { margin-top: 40px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .assessment-header { background: #e8eef8; padding: 14px 18px; font-weight: 700; font-size: 14px; color: var(--navy); }
+    .assessment-body { padding: 20px 18px; }
+    .quiz-question { margin-bottom: 20px; }
+    .quiz-question p { font-weight: 600; font-size: 14px; margin-bottom: 10px; color: var(--navy); }
+    .quiz-option { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 14px; cursor: pointer; }
+    .quiz-option input { margin-top: 3px; flex-shrink: 0; }
+    .mini-button { background: var(--navy); color: #fff; border: none; padding: 9px 18px; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; margin-right: 8px; transition: all 0.2s; }
+    .mini-button:hover { background: #2d3540; }
+    .mini-button.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+    .mini-button.ghost:hover { color: var(--navy); border-color: #ccc; }
+    .status-text { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .quiz-feedback { margin-top: 12px; font-size: 13px; padding: 10px 14px; border-radius: 8px; }
+    .quiz-feedback.correct { background: #f0faf5; color: #1b6b3a; border-left: 3px solid #22a06b; }
+    .quiz-feedback.incorrect { background: #fdecea; color: #b71c1c; border-left: 3px solid #e53935; }
+
+    /* Badges */
+    .badges-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+    .badge { background: var(--indigo-soft); border: 1px solid #d0d8f8; border-radius: 10px; padding: 10px 16px; font-size: 13px; font-weight: 700; color: var(--indigo-deep); display: flex; align-items: center; gap: 8px; }
+    .badge.locked { background: #f4f4f4; border-color: #e0e0e0; color: var(--muted); }
+    .badge-icon { font-size: 18px; }
+    .progress-meta { font-size: 13px; color: var(--muted); }
+
+    /* Scenario Lab */
+    .scenario-block { border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 28px; overflow: hidden; }
+    .scenario-header { background: #e8eef8; padding: 14px 18px; font-weight: 700; font-size: 14px; color: var(--navy); }
+    .scenario-body { padding: 20px 18px; }
+    .scenario-checklist { list-style: none; margin: 12px 0; padding: 0; }
+    .scenario-checklist li { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 14px; }
+    .scenario-checklist input[type=checkbox] { margin-top: 3px; flex-shrink: 0; }
+
+    /* Checklist boxes */
+    .checklist { list-style: none; padding: 0; margin: 12px 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box { width: 20px; height: 20px; border: 2px solid var(--line); border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff; margin-top: 1px; }
+
+    /* State cards */
+    .state-card { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+    .state-card h4 { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 8px; margin-top: 0; text-transform: none; letter-spacing: 0; }
+    .state-card .broker-line { font-size: 12px; color: var(--muted); margin-bottom: 10px; font-weight: 600; }
+    .state-card ul { margin: 6px 0 0 18px; }
+    .state-card li { font-size: 13px; margin-bottom: 5px; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--line); padding: 20px 0; text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }
+
+    /* Responsive */
+    @media (max-width: 760px) {
+      .content-layout { grid-template-columns: 1fr; }
+      .jump-nav { position: static; max-height: none; }
+      .jump-nav-list { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+      .jump-link { flex: 0 0 auto; white-space: nowrap; }
+      .content-page { padding: 28px 18px; }
+      .header-stats { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo" onclick="goHome()">
+      <span>beycome</span> <span style="color:var(--navy)">MLS</span>
+      <span style="font-size:13px;font-weight:500;color:var(--muted);margin-left:6px;">Data Entry Training</span>
+    </div>
+    <div class="header-stats">
+      <div class="stat"><span class="stat-val" id="stat-sections">0 / 16</span><span class="stat-label">Sections</span></div>
+      <div class="stat"><span class="stat-val" id="stat-score">—</span><span class="stat-label">Quiz Score</span></div>
+      <div class="stat"><span class="stat-val" id="stat-badges">0</span><span class="stat-label">Badges</span></div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- Welcome View -->
+    <div class="view active" id="welcome-view">
+      <div class="welcome-page">
+        <h2>MLS Data Entry<br>Training Guide</h2>
+        <p class="subtitle">Your complete reference for listing properties on 50+ MLS platforms — accurately, fast, and by the rules.</p>
+        <div class="intro-text">
+          <p>Welcome to the Beycome MLS Data Entry team. Your job is to take a seller's completed MLS Questionnaire and get their property live on the MLS — correctly. Accuracy is everything. A wrong bed count, a missing unit number, or a skipped ShowingTime setup affects the seller's listing across every platform it syndicates to.</p>
+          <p>This guide covers every step of the process, every rule you need to know, and every common mistake to avoid. Read it, reference it, keep it open while you work. When in doubt, contact your manager <strong>Yaelyn via Cliq</strong>.</p>
+        </div>
+        <div class="toc-list" id="toc-list"></div>
+        <button class="cta-button" onclick="startTraining()">Start Training →</button>
+      </div>
+    </div>
+
+    <!-- Content View -->
+    <div class="view" id="content-view">
+      <div class="content-layout">
+        <aside class="jump-nav">
+          <div class="jump-nav-list" id="jump-nav"></div>
+        </aside>
+        <div>
+          <div class="content-page" id="content-container"></div>
+          <div class="nav-footer">
+            <button class="nav-button" id="prev-btn" onclick="displayPage(currentPage - 1)" disabled>← Previous</button>
+            <span class="nav-counter">Section <span id="current-page-num">1</span> of <span id="total-pages">16</span></span>
+            <button class="nav-button" id="next-btn" onclick="displayPage(currentPage + 1)">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Beycome MLS Data Entry Training · Internal Use Only · Report issues to Yaelyn via Cliq</div>
+</footer>
+
+<script>
+const sections = [
+  {
+    id: 1,
+    title: "Welcome & Your Role",
+    content: `
+      <div class="content-page-header"><div class="num">1</div><h2>Welcome & Your Role</h2></div>
+      <div class="content-body">
+        <p class="lead">You are the accuracy layer between the seller and the MLS. What you enter is what goes live — on 50+ platforms simultaneously.</p>
+        <h3>What this role is</h3>
+        <p>The MLS Data Entry team is responsible for taking a seller's completed MLS Questionnaire and listing their property on the correct MLS — completely, accurately, and within <strong>2 hours</strong> of receiving a completed questionnaire. When you make an error, it doesn't just affect one platform. It propagates to Zillow, Realtor.com, Redfin, and every other portal that syndicates from the MLS.</p>
+        <h3>What "good" looks like</h3>
+        <ul>
+          <li><strong>Speed.</strong> Every listing must be published within 2 hours of a completed questionnaire. Delays beyond a day may require a new agreement to match the listing date and avoid MLS fines.</li>
+          <li><strong>Zero-defect entry.</strong> Every field entered matches exactly what the seller provided. No guessing, no shortcuts.</li>
+          <li><strong>Ownership verification before anything else.</strong> Never list a property without confirmed ownership documentation.</li>
+          <li><strong>Immediate publish.</strong> No waiting for client confirmation after all steps are complete — publish directly.</li>
+          <li><strong>VPN always on.</strong> You must be connected to the Beycome VPN (Miami exit node) before accessing any MLS.</li>
+        </ul>
+        <div class="callout info">
+          <label>Reports to</label>
+          <strong>Yaelyn</strong> — your manager. Contact via <strong>Cliq</strong> for questions, blocks, or anything not covered here. When in doubt, ask before acting.
+        </div>
+        <h3>Your team</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>Yaelyn</td><td>Manager — escalation point, approvals, questions</td></tr>
+            <tr><td>Alvaro</td><td>MLS Data Entry Specialist</td></tr>
+            <tr><td>Lindy</td><td>MLS Data Entry Specialist</td></tr>
+            <tr><td>Label</td><td>MLS Data Entry Specialist</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warn">
+          <label>The 2-hour rule</label>
+          Listings must go live within 2 hours of receiving a completed MLS Questionnaire. If delayed by a day or more, a new listing agreement may be required to match the listing date and avoid MLS fines.
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 2,
+    title: "The MLS Listings Queue",
+    content: `
+      <div class="content-page-header"><div class="num">2</div><h2>The MLS Listings Queue</h2></div>
+      <div class="content-body">
+        <p class="lead">Everything starts at <strong>kobe.beycome.com/admin/mls-listings</strong> — your daily home base.</p>
+        <h3>The five status buckets</h3>
+        <table>
+          <thead><tr><th>Status</th><th>What it means</th><th>Your action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>New</strong></td><td>Seller completed the MLS Questionnaire. Not yet reviewed or assigned by anyone.</td><td>Pick up → click Actions → "List MLS"</td></tr>
+            <tr><td><strong>In Progress</strong></td><td>A rep has self-assigned and is actively working it.</td><td>Do not touch — belongs to that rep</td></tr>
+            <tr><td><strong>For Review</strong></td><td>Blocked — pending photos, manager approval, NC floor plan, ownership issue, MLS issue, or other hold.</td><td>Review notes to see what's needed</td></tr>
+            <tr><td><strong>Incomplete</strong></td><td>Something is missing. Seller needs to log back into their Beycome account to fix or upload something.</td><td>Client has been notified — monitor for update</td></tr>
+            <tr><td><strong>Listed (today)</strong></td><td>Successfully published on the MLS today.</td><td>No action needed</td></tr>
+          </tbody>
+        </table>
+        <h3>How to pick up a listing</h3>
+        <ol>
+          <li>Go to <strong>kobe.beycome.com/admin/mls-listings</strong></li>
+          <li>Filter for status <strong>New</strong> or <strong>For Review</strong></li>
+          <li>Pick the <strong>latest listings first</strong> — work in order of arrival</li>
+          <li>Click <strong>Actions → "List MLS"</strong> to open the 4-step listing flow</li>
+        </ol>
+        <div class="callout info">
+          <label>Only process what's yours</label>
+          Only pick up listings in status "New" or "For Review" that are unassigned. Never work a listing already assigned to another rep.
+        </div>
+        <h3>Setting a listing to Incomplete</h3>
+        <p>When something is missing and the seller must fix it, you set the listing to <strong>Incomplete</strong> with a specific reason and notify the client via BO notes. The standard Incomplete reasons are:</p>
+        <ul>
+          <li>Missing Parcel Number</li>
+          <li>Missing Ownership</li>
+          <li>Missing Signature</li>
+          <li>Missing Floorplan (NC only)</li>
+          <li>Missing Notarization (NC, CA only)</li>
+          <li>Others (for tech/MLS issues)</li>
+        </ul>
+        <div class="callout warn">
+          <label>Incomplete questionnaires expire</label>
+          An Incomplete MLS Questionnaire expires without refund after 30 days if reached multiple times without response. It is then changed to status Expired.
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 3,
+    title: "Setup & Before You Start",
+    content: `
+      <div class="content-page-header"><div class="num">3</div><h2>Setup & Before You Start</h2></div>
+      <div class="content-body">
+        <p class="lead">Before touching any listing, two things must always be true: you are on VPN, and you have reserved the MLS session.</p>
+        <h3>1 — Connect to Beycome VPN (Miami exit node)</h3>
+        <p>You must be connected to the <strong>Beycome VPN with the Miami exit node</strong> before accessing any MLS system. This is not optional — all MLS access is locked to our VPN IP.</p>
+        <ul>
+          <li>Open your VPN app and select the <strong>Miami exit node</strong></li>
+          <li>Confirm you are connected before logging into any MLS</li>
+          <li>If you cannot connect, stop and message Yaelyn on Cliq before proceeding</li>
+        </ul>
+        <div class="callout warn">
+          <label>Never skip VPN</label>
+          Accessing an MLS without VPN can result in credential flags, IP bans, or MLS compliance issues.
+        </div>
+        <h3>2 — Reserve your MLS session</h3>
+        <p>Multiple reps share login credentials for each MLS. <strong>Never log into an MLS at the same time as another rep.</strong> The Back Office has a reservation system to prevent this.</p>
+        <table>
+          <thead><tr><th>When to use</th><th>Button</th></tr></thead>
+          <tbody>
+            <tr><td>Creating a new listing (Step 4)</td><td><strong>Reserve 20 min</strong></td></tr>
+            <tr><td>Making a quick update</td><td><strong>Reserve 5 min</strong></td></tr>
+          </tbody>
+        </table>
+        <ul>
+          <li>Before reserving, check the MLS shows a <strong>green dot</strong> (available)</li>
+          <li>If it shows red, another rep is using it — wait until it clears</li>
+          <li>Reserve the session, then open the MLS in a new tab and log in with the credentials shown</li>
+        </ul>
+        <h3>3 — The automation server (remote access)</h3>
+        <p>Step 4 uses Beycome's automation to fill in listing data automatically. After clicking <strong>"Automatic List"</strong> in the Back Office, you need to open the <strong>remote access app</strong> (VPN remote desktop) to run the automation recipe for that property.</p>
+        <ul>
+          <li>Click "Automatic List" in the BO first</li>
+          <li>Then open the remote access app to run the recipe</li>
+          <li>Fill in anything the automation misses manually</li>
+          <li>If the automation gets stuck → set Incomplete "Others" and report to <strong>#Tech on Cliq</strong></li>
+        </ul>
+        <div class="callout info">
+          <label>OTP / PIN code</label>
+          If an MLS requires a PIN code (OTP), our phone number is <strong>754-354-2900</strong> — it redirects to Desk.
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 4,
+    title: "Step 1 — Assign",
+    content: `
+      <div class="content-page-header"><div class="num">4</div><h2>Step 1 — Assign</h2></div>
+      <div class="content-body">
+        <p class="lead">The first step when you open a listing. Takes 2 minutes — but two things must happen before you move on.</p>
+        <h3>What to do</h3>
+        <ol>
+          <li>From the MLS Listings queue, click <strong>Actions → "List MLS"</strong> on a New listing</li>
+          <li>On the listing page, click <strong>"Self Assign"</strong> — this puts your name on the listing so the team knows it's yours</li>
+          <li>Click <strong>"Change MLSQ Status"</strong> and set it to <strong>In Progress</strong></li>
+        </ol>
+        <h3>Also review in Step 1</h3>
+        <p>Step 1 shows you the listing's key details. Review each of the following before moving to Step 2:</p>
+        <table>
+          <thead><tr><th>Field</th><th>What to check</th></tr></thead>
+          <tbody>
+            <tr><td>State</td><td>Confirms which MLS and which state-specific rules apply</td></tr>
+            <tr><td>Full Address</td><td>Verify it looks complete — flag if missing unit number for condos/multi-unit</td></tr>
+            <tr><td>Type / Subtype</td><td>Residential Sale, Land, etc. — determines required fields and photo minimums</td></tr>
+            <tr><td>Primary MLS</td><td>Note which MLS — this determines your credentials and rules</td></tr>
+            <tr><td>Package</td><td>Basic $99 / Enhanced $399 / Concierge $999 — affects what services apply</td></tr>
+            <tr><td>Seller / Owner name</td><td>Must be a proper full name — see below</td></tr>
+          </tbody>
+        </table>
+        <h3>Seller name check — critical</h3>
+        <p>The seller name must be a <strong>proper full name</strong>. Reject any of the following:</p>
+        <ul>
+          <li>"Owner" — not a real name</li>
+          <li>Only a first name (e.g., "John") — incomplete</li>
+          <li>Only an entity name with no person (e.g., "LLC" by itself)</li>
+        </ul>
+        <div class="callout warn">
+          <label>If seller name is wrong</label>
+          Report to <strong>#Tech on Cliq</strong>. Do not proceed to Step 2 until the name is corrected.
+        </div>
+        <div class="callout info">
+          <label>High Risk flag</label>
+          If the client is tagged as "High Risk" in the system, be extra careful on all ownership and documentation checks in Step 3.
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 5,
+    title: "Step 2 — Check Parcel",
+    content: `
+      <div class="content-page-header"><div class="num">5</div><h2>Step 2 — Check Parcel</h2></div>
+      <div class="content-body">
+        <p class="lead">Verify the address and parcel number match exactly what the county has on record. This step is mostly automated — but you must confirm it.</p>
+        <h3>What Step 2 shows you</h3>
+        <ul>
+          <li><strong>Full Address</strong> — as entered by the seller</li>
+          <li><strong>Parcel Number</strong> — from the system</li>
+          <li><strong>Parcel Number (County)</strong> — pulled from county records</li>
+          <li><strong>County</strong> — with a link to the county records website</li>
+          <li><strong>Proof of Ownership documents</strong> — uploaded by the seller</li>
+        </ul>
+        <h3>Your job in Step 2</h3>
+        <ol>
+          <li>Click <strong>"County Record Screenshot"</strong> — this opens the auto-generated county record to verify the address and parcel number match</li>
+          <li>Confirm the <strong>full address</strong> and <strong>parcel number</strong> in the system match the county</li>
+          <li>Upload the county record screenshot to: <strong>BO listing → Action → Document → County Record Screenshot</strong></li>
+        </ol>
+        <h3>If something doesn't match</h3>
+        <table>
+          <thead><tr><th>Issue</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Address or parcel number doesn't match county</td><td>Set Incomplete <strong>"Missing Parcel Number"</strong> and notify client via BO notes. Click "Incorrect Address or Parcel Number" button.</td></tr>
+            <tr><td>Address not found (new construction or land)</td><td>Specify the city in the dropdown that appears. Use 0 as street number if no number exists.</td></tr>
+            <tr><td>Parcel numbers differ between system and county</td><td>Use "Fix Parcel Number" button to correct. Notify Yaelyn.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout info">
+          <label>Street number rule</label>
+          Street number must be set even if empty — default is <strong>0</strong>, including for land listings.<br>
+          <strong>Exceptions</strong> (no street number needed): Realcomp MLS, Stellar MLS, My State MLS.
+        </div>
+        <div class="callout warn">
+          <label>Multiple lots / parcel numbers</label>
+          If a property has multiple lots and parcel numbers, you cannot list them all at once. Either list the largest lot and mention others in public remarks, or each must be paid and listed separately.
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 6,
+    title: "Step 3 — Check Ownership",
+    content: `
+      <div class="content-page-header"><div class="num">6</div><h2>Step 3 — Check Ownership</h2></div>
+      <div class="content-body">
+        <p class="lead">The most critical step. A listing cannot go live unless ownership is verified and the right people have signed.</p>
+        <div class="callout warn">
+          <label>Identity theft is a federal crime</label>
+          We cannot list on behalf of someone who has not properly authorized it. Any abuse is automatically reported to the FBI. Never proceed if ownership cannot be verified.
+        </div>
+        <h3>What to verify</h3>
+        <ol>
+          <li>The <strong>seller name</strong> on the Beycome listing agreement matches the <strong>legal owner name</strong> on county records — or there is proper documentation explaining the difference (see table below)</li>
+          <li>If <strong>two owners</strong> appear on county records, <strong>both must have signed</strong> the Beycome listing agreement</li>
+          <li>All required documents have been uploaded (see documents table below)</li>
+        </ol>
+        <h3>If ownership is missing</h3>
+        <ol>
+          <li>Click the <strong>"Missing Ownership"</strong> button</li>
+          <li>Set listing to <strong>Incomplete "Missing Ownership"</strong></li>
+          <li>Send email to client via BO notes explaining exactly what is needed</li>
+          <li>Once received, update MLSQ back to <strong>In Progress</strong></li>
+        </ol>
+        <h3>If signature is missing (multiple owners)</h3>
+        <ol>
+          <li>Set listing to <strong>Incomplete "Missing Signature"</strong></li>
+          <li>Notify client via BO notes — all owners must sign</li>
+        </ol>
+
+        <h3>Signature Scenarios — Full Table</h3>
+        <table>
+          <thead>
+            <tr><th>Seller Scenario</th><th>Agreements signed by</th><th>Disclosures signed by</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Seller name matches the Legal Owner name</td><td>Owner</td><td>Owner</td></tr>
+            <tr><td>Seller name matches only one of multiple Legal Owner names</td><td>All Owners</td><td>All Owners</td></tr>
+            <tr><td>Seller name does not match — Owner is an LLC</td><td>"Seller for Company name"</td><td>"Seller for Company name"</td></tr>
+            <tr><td>Seller name does not match — Owner is a Corporation (Corp.), Inc., Limited Partnership (LP), or Foreign Limited Partnership (FLP)</td><td>"Seller for Company name"</td><td>"Seller for Company name"</td></tr>
+            <tr><td>Seller name does not match — Owner is a Trust or Land Trust</td><td>"Seller for Trust name"</td><td>"Seller for Trust name"</td></tr>
+            <tr><td>Seller name does not match — Seller has Power of Attorney (POA), legal owner is alive</td><td>"Seller as AIF"</td><td>"Seller as AIF"</td></tr>
+            <tr><td>Seller name does not match — Legal Owner has passed away, Seller has Probate as Executor, Administrator with full authority, or Estate Representative</td><td>Estate of "Owner", by "Seller", Personal Representative</td><td>Estate of "Owner", by "Seller", Personal Representative</td></tr>
+            <tr><td>Seller name does not match — Seller has PSA (Purchase and Sale Agreement) — <strong>Property in AL, CT, FL, GA, IN, MI, MN, TN, TX</strong></td><td>Seller</td><td>All Owners</td></tr>
+            <tr><td>Seller name does not match — Seller has PSA — <strong>Property in OH</strong></td><td>Seller + All Owners</td><td>All Owners</td></tr>
+            <tr><td>Seller name does not match — Seller has PSA — <strong>Property in NC, CA</strong></td><td>"Seller as AIF"</td><td>All Owners</td></tr>
+            <tr style="background:#fdecea;"><td>Seller name does not match — Seller has PSA — <strong>Property in IL, SC, OK</strong></td><td><span class="tag forbidden">Forbidden</span></td><td><span class="tag forbidden">Forbidden</span></td></tr>
+            <tr style="background:#fdecea;"><td>Seller name does not match — Seller has only an Attorney-in-Fact (AIF) document</td><td><span class="tag forbidden">Forbidden</span></td><td><span class="tag forbidden">Forbidden</span></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Documents Required — Full Table</h3>
+        <table>
+          <thead>
+            <tr><th>Seller Scenario</th><th>Required Document</th><th>Additional Required</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Seller name matches Legal Owner</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>—</td></tr>
+            <tr><td>Seller matches only one of multiple Legal Owners</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>Signed authorization of other owners</td></tr>
+            <tr><td>Owner is an LLC</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>LLC Operating Agreement or Articles of Organization</td></tr>
+            <tr><td>Owner is a Corporation, Inc., LP, or FLP</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>Articles of Incorporation, Bylaws, Certificate, Corporate Amendment, Partnership Agreement, or Meeting Minutes</td></tr>
+            <tr><td>Owner is a Trust or Land Trust</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>Trust Operating Agreement, Declaration of Trust, or Trust Certificate</td></tr>
+            <tr><td>Seller has POA — legal owner alive</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>Power of Attorney</td></tr>
+            <tr><td>Seller has Probate or is Estate Representative</td><td>Personal ID or Tax Sheet or Deed or Title Statement</td><td>Letters Testamentary or Letters of Administration with "full authority"</td></tr>
+            <tr><td>Seller has PSA — AL, CT, FL, GA, IN, MI, MN, TN, TX</td><td>Personal ID or Tax Sheet or Deed or Title Statement + Purchase and Sale Agreement with explicit Attorney-in-Fact rights to market and sign</td><td>If LLC/Corp: Bylaws, Operating Agreement, or Meeting Minutes granting authority to sell</td></tr>
+            <tr><td>Seller has PSA — NC, CA</td><td>Personal ID or Tax Sheet or Deed or Title Statement + Purchase and Sale Agreement and Notarized limited Attorney-in-Fact authority to market, sign, and sell</td><td>If LLC/Corp: Articles, Bylaws, or Meeting Minutes</td></tr>
+            <tr style="background:#fdecea;"><td>Seller has PSA — IL, SC, OK, OH</td><td colspan="2"><span class="tag forbidden">Forbidden by state law</span></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Additional ownership rules</h3>
+        <ul>
+          <li><strong>POA must be notarized</strong> in North Carolina and California. The document must be signed and notarized by the owner — not by the seller. Tools: Notarize.com, Notarylive.com, or Docusign Notary.</li>
+          <li><strong>AIF (Attorney-in-fact) document alone is not enough</strong> to list a property — it is legally too limited and does not authorize transfer of ownership.</li>
+          <li>A <strong>Deed not yet updated by the county</strong> is acceptable — counties can take 2–3 months to update records after ownership transfer. If the seller is the owner, you can proceed.</li>
+          <li><strong>Never upload the Beycome Listing Agreement to the MLS</strong> — it is a private proprietary document. Only Smart MLS, Houston MLS, and My State MLS require it, and it must be set to "broker private only."</li>
+          <li>Only <strong>Stellar MLS</strong> requires the disclosure form to be signed with the homeowner's name (not the seller's).</li>
+        </ul>
+
+        <h3>NC & CA — Notarization check (Step 3)</h3>
+        <p>For properties in <strong>North Carolina or California</strong>, also check notarization for PSA/POA/AIF agreements:</p>
+        <ul>
+          <li>If notarization is missing → set Incomplete <strong>"Missing Notarization"</strong> and notify client via BO notes</li>
+        </ul>
+
+        <h3>NC — Floor plan check (Step 3)</h3>
+        <p>For North Carolina properties, floor plans must be verified before proceeding:</p>
+        <ul>
+          <li>Must be certified, dated, with sqft per room, and total sqft heated and non-heated</li>
+          <li>If floor plan is missing or invalid → set Incomplete <strong>"Missing Floorplan"</strong> and notify client via BO notes</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    id: 7,
+    title: "Step 4 — List on MLS",
+    content: `
+      <div class="content-page-header"><div class="num">7</div><h2>Step 4 — List on MLS</h2></div>
+      <div class="content-body">
+        <p class="lead">The main event. This is where you enter all the listing data, upload photos, configure showings, and activate the listing.</p>
+        <h3>Step 4 overview — what you'll see</h3>
+        <ul>
+          <li><strong>Property ID</strong> and <strong>MLS Name</strong></li>
+          <li><strong>Reserve button</strong> (5 min or 20 min) — must reserve before logging in</li>
+          <li><strong>Login credentials</strong> (username and password for this MLS)</li>
+          <li><strong>Basic Information</strong> — all the questionnaire data to enter into the MLS</li>
+          <li><strong>Pictures</strong> — photos the seller uploaded</li>
+          <li><strong>Disclosures</strong> — documents to upload to the MLS</li>
+          <li><strong>Showings</strong> — ShowingTime contact info and showing remarks</li>
+        </ul>
+
+        <h3>The listing flow — in order</h3>
+        <ol>
+          <li><strong>Verify green dot</strong> — MLS must show green dot (available)</li>
+          <li><strong>Click "Reserve 20 min"</strong> — locks your session so no other rep logs in simultaneously</li>
+          <li><strong>Click "Automatic List"</strong> in the Back Office</li>
+          <li><strong>Open the remote access app</strong> (VPN remote desktop) and run the automation recipe for this property</li>
+          <li><strong>Fill in anything the automation missed manually</strong> — review every field</li>
+          <li><strong>Enter all questionnaire data</strong> — every field the seller filled out must go into the MLS exactly</li>
+          <li><strong>Upload disclosures immediately</strong> — before editing or publishing (especially critical for Realcomp MLS in Michigan)</li>
+          <li><strong>Upload photos</strong> in the exact same order the seller submitted them</li>
+          <li><strong>Configure ShowingTime or BrokerBay</strong> with the seller's contact information (name, phone, email, showing remarks)</li>
+          <li><strong>Publish / Activate immediately</strong> — no waiting for client confirmation</li>
+        </ol>
+
+        <div class="callout warn">
+          <label>Publish immediately — no waiting</label>
+          Once all steps are complete, activate the listing right away. Do not wait for the seller to confirm. Do not delay. The 2-hour rule applies from the moment you receive a completed questionnaire.
+        </div>
+
+        <h3>Automation issues</h3>
+        <ul>
+          <li>If the automation gets stuck → set Incomplete <strong>"Others"</strong> and report to <strong>#Tech on Cliq</strong></li>
+          <li>If the MLS has a technical issue → propose listing on <strong>My State MLS</strong> as temporary alternative (send email via BO — no client confirmation needed) and report to #Tech</li>
+        </ul>
+
+        <h3>Showings setup — do not skip</h3>
+        <p>The Showings section shows the seller's contact information for ShowingTime. You must enter this into the MLS showing system. Missing this means buyers' agents cannot schedule showings.</p>
+        <table>
+          <thead><tr><th>Field</th><th>Where to get it</th></tr></thead>
+          <tbody>
+            <tr><td>Contact Full Name</td><td>Showings section in Step 4</td></tr>
+            <tr><td>Contact Phone</td><td>Showings section in Step 4</td></tr>
+            <tr><td>Contact Email</td><td>Showings section in Step 4</td></tr>
+            <tr><td>Showing Remark</td><td>Showings section in Step 4 (e.g., "Prior to any showings contact [name] directly at [phone]")</td></tr>
+          </tbody>
+        </table>
+        <div class="callout info">
+          <label>ShowingTime vs BrokerBay</label>
+          Most MLS use <strong>ShowingTime</strong>. Some MLS have replaced it with <strong>BrokerBay</strong>. Check which one applies for the MLS you are listing on. Both serve the same purpose — the seller receives showing requests directly.
+        </div>
+
+        <h3>Key rules while in the MLS</h3>
+        <ul>
+          <li><strong>Never mention agent compensation or commission</strong> in any MLS field — NAR regulation, no exceptions</li>
+          <li><strong>Listing Service must always be "Limited Service"</strong> (exceptions: Illinois requires more involvement, Indiana requires broker at closing)</li>
+          <li><strong>No Custom Private Remarks</strong> — do not modify the auto-generated private remarks text. If there's an issue, ask #Tech to update it</li>
+          <li><strong>Never upload the Beycome Listing Agreement</strong> to the MLS — proprietary document (exception: Smart MLS, Houston MLS, My State MLS — set to "broker private only")</li>
+          <li><strong>Do not mention "GPS"</strong> in directions or any open text field — it is copyrighted and causes MLS fines</li>
+          <li><strong>Do not add contact info to public description</strong> — MLS forbids it</li>
+          <li><strong>Publish on 3rd party syndication</strong> (Zillow, Realtor.com, Redfin) by default, unless the client specifically requests not to</li>
+        </ul>
+
+        <h3>If the MLS allows a second MLS</h3>
+        <ul>
+          <li>Max 2 MLS per listing</li>
+          <li>The additional MLS must be geographically close to the primary MLS — use the map at <a href="https://www.beycome.com/map.html" target="_blank">beycome.com/map.html</a></li>
+          <li><strong>Do not use My State MLS as a secondary MLS</strong> — it is not a full MLS</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    id: 8,
+    title: "Completing & Activating",
+    content: `
+      <div class="content-page-header"><div class="num">8</div><h2>Completing & Activating</h2></div>
+      <div class="content-body">
+        <p class="lead">Three actions complete every listing. All three are required before you move on.</p>
+        <h3>The three final steps</h3>
+        <ol>
+          <li>
+            <strong>Save MLS Reference</strong><br>
+            Click the <strong>"Save MLS Reference"</strong> button at the bottom of Step 4. Enter:
+            <ul>
+              <li>MLS Name</li>
+              <li>MLS Number (the listing ID assigned by the MLS when published)</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Upload MLS PDF</strong><br>
+            Go to the MLS, open the property detail page, and print it as a PDF. Upload that PDF back to the Back Office using the <strong>"Upload MLS PDF"</strong> button.
+          </li>
+          <li>
+            <strong>Mark as Active</strong><br>
+            Click <strong>"Mark as Active"</strong> — this updates the status in the Back Office to Listed and triggers the seller's notification.
+          </li>
+        </ol>
+        <div class="callout warn">
+          <label>Do not send the MLS PDF to the client</label>
+          Do not email the MLS PDF Sheet to the client unless they specifically request it. If required, do not send by email — upload it to the Back Office under <strong>Actions → Contract/Addendum</strong>.
+        </div>
+        <h3>Second MLS (if applicable)</h3>
+        <p>If the seller paid for a second MLS, publish on the second MLS after completing the first. Same process — reserve session, run automation, enter data, upload photos and disclosures, configure showings, activate.</p>
+        <div class="callout info">
+          <label>Listing agreements & expiration</label>
+          Listings and agreements expire on the MLS after <strong>36 months</strong> (24 months on newer agreements, including NC). Once expired, we cannot legally represent the property and it must be removed from the MLS.
+        </div>
+        <h3>Portal sync check</h3>
+        <p>After activating, the listing should appear on Zillow, Realtor.com, Redfin, and other portals within 2 hours. If it hasn't synced after 2 hours, contact the portal directly:</p>
+        <table>
+          <thead><tr><th>Portal</th><th>Contact</th></tr></thead>
+          <tbody>
+            <tr><td>Zillow</td><td><a href="mailto:mlssupport@zillowgroup.com">mlssupport@zillowgroup.com</a></td></tr>
+            <tr><td>Realtor.com</td><td><a href="mailto:customercare@realtor.com">customercare@realtor.com</a></td></tr>
+            <tr><td>Redfin</td><td><a href="mailto:customer-service@redfin.com">customer-service@redfin.com</a></td></tr>
+            <tr><td>Homes.com</td><td><a href="mailto:support@homes.com">support@homes.com</a></td></tr>
+            <tr><td>Apartments.com</td><td><a href="mailto:support@apartments.com">support@apartments.com</a></td></tr>
+            <tr><td>Movoto</td><td><a href="mailto:support@movoto.com">support@movoto.com</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    `
+  },
+  {
+    id: 9,
+    title: "MLS Rules You Must Know",
+    content: `
+      <div class="content-page-header"><div class="num">9</div><h2>MLS Rules You Must Know</h2></div>
+      <div class="content-body">
+        <p class="lead">These rules apply to every listing, regardless of state or MLS. Violating them can result in MLS fines, listing removal, or legal liability.</p>
+        <h3>Publication rules</h3>
+        <ul>
+          <li><strong>Publish within 2 hours</strong> of receiving a completed MLS Questionnaire. Delays of a day or more may require a new listing agreement.</li>
+          <li><strong>Publish directly</strong> — no waiting for client confirmation, no asking for activation approval.</li>
+          <li><strong>No "Coming Soon" or custom statuses</strong> — these require the Concierge package and extra compliance care. Do not set these without authorization.</li>
+          <li><strong>No delayed publication</strong> — if a client is not ready, they should not finalize the questionnaire. Once done, list immediately.</li>
+        </ul>
+        <h3>Commission & compensation</h3>
+        <ul>
+          <li><strong>Never mention agent compensation or commission in any MLS field</strong> — this is a NAR regulation with no exceptions.</li>
+          <li>Do not include commissions, concessions, or bonus language in any field.</li>
+          <li>If a seller asks about commissions, direct them to the Compensation Agreement — Seller to Buyers Broker in their Beycome dashboard.</li>
+        </ul>
+        <h3>Listing service type</h3>
+        <ul>
+          <li>Listing Service must always be set to <strong>"Limited Service"</strong></li>
+          <li><strong>Exception — Illinois:</strong> Our broker must help determine asking price, present and negotiate offers, and coordinate showings per state law</li>
+          <li><strong>Exception — Indiana:</strong> Our broker must attend in-person at closing (unless fully remote — see State Rules)</li>
+        </ul>
+        <h3>Listing agreement type</h3>
+        <ul>
+          <li>Most states: <strong>Exclusive Right to Sell</strong></li>
+          <li><strong>California:</strong> Must be "Open" listing type so others can list the property as well</li>
+          <li><strong>North Carolina:</strong> Must be "Open" listing type</li>
+        </ul>
+        <h3>Simultaneous MLS login</h3>
+        <ul>
+          <li><strong>Never log into an MLS at the same time as another rep</strong> — always use the BO reservation system (green dot + reserve button)</li>
+        </ul>
+        <h3>MLS credentials</h3>
+        <ul>
+          <li>If an MLS requires a new password → update it in the Back Office under MLS Credentials</li>
+          <li>If you cannot connect to an MLS → escalate to <strong>Austin or Nico</strong> immediately</li>
+        </ul>
+        <h3>Syndication</h3>
+        <ul>
+          <li>Always publish to 3rd party syndication (Zillow, Realtor.com, Redfin) <strong>unless the client specifically requests not to</strong></li>
+        </ul>
+        <h3>MLS changes — client requests</h3>
+        <ul>
+          <li>MLS changes can only be requested via the client's Beycome Dashboard or via the Back Office — never by email, SMS, or chat alone</li>
+          <li>To report a change from the Back Office: add a note and check <strong>"Ask the MLS Team"</strong></li>
+        </ul>
+        <h3>Photo ownership</h3>
+        <ul>
+          <li><strong>Do not ask for photo ownership</strong> or search for duplication/copyright — photos are automatically verified against 20 criteria by the system</li>
+        </ul>
+        <h3>CMA availability</h3>
+        <p>CMA (Comparative Market Analysis) is <strong>not available</strong> in the following states because closing prices are not disclosed in public records by state law:</p>
+        <p><strong>TX, AK, ID, KS, LA, MO, MS, MT, ND, NM, WY</strong></p>
+      </div>
+    `
+  },
+  {
+    id: 10,
+    title: "Photo Rules",
+    content: `
+      <div class="content-page-header"><div class="num">10</div><h2>Photo Rules</h2></div>
+      <div class="content-body">
+        <p class="lead">Photos are one of the most common sources of MLS compliance issues. Know these rules cold.</p>
+        <h3>Photo minimums</h3>
+        <table>
+          <thead><tr><th>Property Type / MLS</th><th>Minimum Photos</th></tr></thead>
+          <tbody>
+            <tr><td>Residential (most MLS)</td><td><strong>3 photos</strong></td></tr>
+            <tr><td>Land (most MLS)</td><td><strong>1 photo</strong></td></tr>
+            <tr><td>HAR (Houston MLS) — Residential</td><td><strong>6 photos minimum</strong></td></tr>
+            <tr><td>NTREIS (North Texas)</td><td><strong>1 photo minimum</strong></td></tr>
+          </tbody>
+        </table>
+        <p>There is no maximum — but most MLS and real estate portals display only the first <strong>100 photos</strong>.</p>
+
+        <h3>First / primary photo rule</h3>
+        <p>The first photo <strong>must be a front exterior, rendering, aerial photo, or water view.</strong></p>
+        <div class="callout warn">
+          <label>Swimming pool does NOT qualify</label>
+          A photo of a swimming pool does not qualify as a water view. It cannot be the first photo.
+        </div>
+        <p><strong>MLS exceptions</strong> — the following allow any primary photo as long as an exterior photo is included somewhere in the set:</p>
+        <ul>
+          <li>Realtracs MLS</li>
+          <li>Florida GulfCoast MLS</li>
+          <li>Miami MLS</li>
+          <li>NABOR</li>
+          <li>SWVAR MLS</li>
+          <li>Beaches MLS</li>
+        </ul>
+
+        <h3>Photo specifications</h3>
+        <table>
+          <thead><tr><th>Spec</th><th>Requirement</th></tr></thead>
+          <tbody>
+            <tr><td>Minimum dimensions</td><td>640 x 480 px</td></tr>
+            <tr><td>Maximum file size</td><td>32 MB</td></tr>
+            <tr><td>Recommended</td><td>1600 x 1200 px at 72 dpi, RGB, JPEG compression 85+</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Forbidden photo content</h3>
+        <ul>
+          <li>Yard signs</li>
+          <li>Watermarks or logos</li>
+          <li>Brand names</li>
+          <li>Faces of people</li>
+          <li>Explicit, political, or offensive content</li>
+          <li>Street view screenshots</li>
+        </ul>
+
+        <h3>Photo upload order</h3>
+        <div class="callout warn">
+          <label>Upload in seller's exact order</label>
+          Photos must be uploaded to the MLS in the <strong>exact same order</strong> the seller submitted them in the questionnaire. Do not reorder.
+        </div>
+
+        <h3>Additional photo rules</h3>
+        <ul>
+          <li><strong>Virtually staged photos</strong> must be marked — check the "Virtually Staged" checkbox if any photos have been altered (sky changed, grass colored, furniture added, etc.)</li>
+          <li><strong>Do not reuse photos</strong> for some MLS — notably <strong>Beaches MLS</strong> does not allow photo reuse even if you own the rights</li>
+          <li><strong>Floor plan photos</strong> must show living square footage to comply with MLS rules</li>
+          <li><strong>New construction:</strong> Must have at least 1 photo without rendering. Photos with virtual rendering must indicate it. Photos should not have excessive text or price overlays.</li>
+          <li><strong>Video/Virtual Tours:</strong> Most MLS allow only "Unbranded" video — no logos, contact info, agent photos, links, or QR codes in the video.</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    id: 11,
+    title: "Description & Remarks Rules",
+    content: `
+      <div class="content-page-header"><div class="num">11</div><h2>Description & Remarks Rules</h2></div>
+      <div class="content-body">
+        <p class="lead">Public Remarks exist only to describe the property. MLS rules are strict — violations result in fines or listing removal.</p>
+        <h3>What is NOT allowed in Public Remarks</h3>
+        <ul>
+          <li><strong>Contact information</strong> (phone numbers, emails, names) — MLS forbids it</li>
+          <li><strong>Showing information</strong> — use the dedicated showings field</li>
+          <li><strong>Financial information</strong> — commissions, concessions, owner financing terms in the description</li>
+          <li><strong>Driving directions</strong></li>
+          <li><strong>Discrimination or preference language</strong> — must comply with the Fair Housing Act</li>
+          <li><strong>Commission or bonus language</strong> — forbidden on MLS and at Beycome</li>
+        </ul>
+
+        <h3>Forbidden words in description</h3>
+        <p>The following words are prohibited by MLS rules:</p>
+        <div style="background:var(--coral-soft);border-radius:10px;padding:14px 18px;margin:14px 0;">
+          <p style="margin:0;font-size:14px;line-height:2;">
+            "perfect for" &nbsp;·&nbsp; "ideal for" &nbsp;·&nbsp; "independent living" &nbsp;·&nbsp; "FSBO" &nbsp;·&nbsp; "realtors welcome" &nbsp;·&nbsp; "seasonal worker" &nbsp;·&nbsp; "safest" &nbsp;·&nbsp; "offer" &nbsp;·&nbsp; "agreement" &nbsp;·&nbsp; "settlement" &nbsp;·&nbsp; "commission" &nbsp;·&nbsp; "short-term" &nbsp;·&nbsp; "vacation"
+          </p>
+        </div>
+
+        <h3>Private Remarks — do not modify</h3>
+        <ul>
+          <li><strong>No Custom Private Remarks</strong> — we do not support them due to abuse and new MLS regulation</li>
+          <li><strong>Do not change the auto-generated Private Remarks</strong> — do not shorten URLs, remove sentences, or modify the text in any way</li>
+          <li>If there is an issue with Private Remarks → ask <strong>#Tech on Cliq</strong> to update it</li>
+          <li>For financing remarks → use the dedicated "Owner Financing" field if the MLS has one</li>
+        </ul>
+
+        <div class="callout warn">
+          <label>Do not use "GPS" in directions</label>
+          The word "GPS" is copyrighted. Using it in directions or any open text field (e.g., "SEE GPS") will cause a MLS fine.
+        </div>
+
+        <h3>Additional rules</h3>
+        <ul>
+          <li>Seller financing can no longer be added to the description — use the dedicated Owner Financing field on the MLS if available</li>
+          <li>Client phone number is <strong>NOT allowed</strong> on WaterWonderland MLS — do not add it anywhere</li>
+          <li>Buyers' contact information shows our broker's details on portals like Zillow (not the seller's) — this is expected and correct per MLS rules</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    id: 12,
+    title: "Forbidden Types & Concierge",
+    content: `
+      <div class="content-page-header"><div class="num">12</div><h2>Forbidden Listing Types & What Requires Concierge</h2></div>
+      <div class="content-body">
+        <p class="lead">Know the difference: some listing types are absolutely forbidden with no exceptions. Others have limited support that requires the Concierge package.</p>
+
+        <h3>Absolutely forbidden — no exceptions, no packages</h3>
+        <table>
+          <thead><tr><th>Listing Type</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Auction</td><td><span class="tag forbidden">Forbidden</span></td></tr>
+            <tr><td>Tax Lien Sale</td><td><span class="tag forbidden">Forbidden</span></td></tr>
+            <tr><td>Foreclosure</td><td><span class="tag forbidden">Forbidden</span></td></tr>
+            <tr><td>Remainderman's right</td><td><span class="tag forbidden">Forbidden</span></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Limited support — requires Concierge Package</h3>
+        <table>
+          <thead><tr><th>Listing Type</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Short Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>REO Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>Probate Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>Owner Financing</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>Lease Option</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>Equity Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>Installment Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+            <tr><td>Wraparound Mortgage Sale</td><td><span class="tag concierge">Concierge Required</span></td></tr>
+          </tbody>
+        </table>
+        <div class="callout info">
+          <label>Novation = Wholesale</label>
+          Novation is treated as Wholesale. See Wholesale rules below.
+        </div>
+
+        <h3>Mobile homes without land ownership</h3>
+        <p>Forbidden on most MLS.</p>
+        <p><strong>Exceptions — allowed on:</strong></p>
+        <ul>
+          <li>California (all MLS)</li>
+          <li>My State MLS</li>
+          <li>Citrus MLS</li>
+          <li>Coastal Carolinas MLS</li>
+          <li>Keys MLS</li>
+          <li>Bright MLS VA</li>
+          <li>RealComp MLS</li>
+          <li>Northstar MLS</li>
+        </ul>
+        <p><strong>If allowed:</strong> Land lease must always be disclosed.</p>
+
+        <h3>Wholesale / Equitable Interest / Novation — forbidden by state law</h3>
+        <table>
+          <thead><tr><th>Forbidden by state law</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Illinois (IL)</td><td></td></tr>
+            <tr><td>South Carolina (SC)</td><td></td></tr>
+            <tr><td>Ohio (OH)</td><td>Forbidden <em>except</em> if agreement is signed by all parties</td></tr>
+            <tr><td>District of Columbia (DC)</td><td></td></tr>
+            <tr><td>Massachusetts (MA)</td><td></td></tr>
+            <tr><td>Maryland (MD)</td><td></td></tr>
+            <tr><td>New Jersey (NJ)</td><td></td></tr>
+            <tr><td>New York (NY)</td><td></td></tr>
+            <tr><td>Oklahoma (OK)</td><td></td></tr>
+            <tr><td>Pennsylvania (PA)</td><td></td></tr>
+            <tr><td>Rhode Island (RI)</td><td></td></tr>
+            <tr><td>Utah (UT)</td><td></td></tr>
+            <tr><td>Wisconsin (WI)</td><td></td></tr>
+          </tbody>
+        </table>
+        <h3>Wholesale also forbidden by specific MLS</h3>
+        <ul>
+          <li>Mobile MLS (AL)</li>
+          <li>Stellar MLS (FL)</li>
+          <li>Southern Indiana MLS (IN)</li>
+          <li>MIBOR MLS (IN)</li>
+          <li>Doorify MLS (NC)</li>
+          <li>Knoxville Area MLS (TN)</li>
+          <li>Tennessee Virginia Regional MLS (TN)</li>
+          <li>Upper Cumberland MLS (TN)</li>
+          <li>Realtracs MLS (TN)</li>
+          <li>All MLS in Texas (TX)</li>
+          <li>REIN MLS (VA)</li>
+          <li>CVR Central Virginia Regional MLS (VA)</li>
+        </ul>
+        <div class="callout info">
+          <label>Wholesale / Equitable Interest defined</label>
+          Wholesale/Equitable Interest/Novation is when there is an indirect relationship between the owner and Beycome — meaning the seller is not the direct owner.
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 13,
+    title: "State-Specific Rules",
+    content: `
+      <div class="content-page-header"><div class="num">13</div><h2>State-Specific Rules</h2></div>
+      <div class="content-body">
+        <p class="lead">Every state has specific rules, broker information, duties, and limitations. Know the state before you list.</p>
+
+        <h3>Listing type by state</h3>
+        <table>
+          <thead><tr><th>State</th><th>Listing Type</th></tr></thead>
+          <tbody>
+            <tr><td>All states (default)</td><td>Exclusive Right to Sell</td></tr>
+            <tr><td>California</td><td><strong>Open</strong> (others can also list)</td></tr>
+            <tr><td>North Carolina</td><td><strong>Open</strong> (others can also list)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>CMA not available (closing prices not public record)</h3>
+        <p>TX, AK, ID, KS, LA, MO, MS, MT, ND, NM, WY</p>
+
+        <div class="state-card">
+          <h4>🏠 Alabama</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (134784)</div>
+          <ul>
+            <li>List on MLS and assist in marketing</li>
+            <li>Present and negotiate offers</li>
+            <li>Disclose known material facts per RECAD</li>
+            <li>Sellers must provide termite or wood infestation reports</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 California</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty Inc &nbsp;·&nbsp; Broker: Jeffrey Sklar (CalBRE #02075404)</div>
+          <ul>
+            <li>Listing type: <strong>Open</strong></li>
+            <li>POA must be <strong>notarized</strong> — signed and notarized by the owner, not the seller</li>
+            <li>Submit listings to MLS and advertise online</li>
+            <li>No showings, pricing, or inspection duties</li>
+            <li>Relies on seller-supplied data only</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Connecticut</h4>
+          <div class="broker-line">Entity: Beycome of Connecticut &nbsp;·&nbsp; Broker: Steve Koleno (REB.0792869)</div>
+          <ul>
+            <li>Submit to Connecticut MLS, act honestly and fairly</li>
+            <li>Present all offers and counteroffers</li>
+            <li>Exclusive Right to Sell, limited services</li>
+            <li>Does not arrange showings or set pricing</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Florida</h4>
+          <div class="broker-line">Entity: Beycome of Florida LLC &nbsp;·&nbsp; Broker: Steve Koleno (BK3469487)</div>
+          <ul>
+            <li>Act honestly and disclose known property facts</li>
+            <li>Present and advise on offers</li>
+            <li>Flat-fee only; no shared commissions</li>
+            <li>Seller handles showings directly</li>
+            <li>Wholesale forbidden on Stellar MLS</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Georgia</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (396707)</div>
+          <ul>
+            <li>Promote seller's interests and present all offers</li>
+            <li>Disclose material facts</li>
+            <li><strong>GAMLS cancellation fee applies ($25)</strong> — note at cancellation</li>
+            <li>Closing with agent not in MLS: use Agent MLS ID <strong>NONMLS</strong>; if no agent involved: <strong>NOSALESAGENT</strong></li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Illinois</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Misael Chacon (471021523) · Co-Broker: Jeffrey Sklar</div>
+          <ul>
+            <li><strong>More duties than other states per IL Real Estate License Act §15/75:</strong></li>
+            <li>Must help seller determine the asking price</li>
+            <li>Must present and negotiate offers and counteroffers</li>
+            <li>Must answer seller's questions on offers and contingencies</li>
+            <li>Must arrange appointments for Cooperating Brokers or give them authority to schedule directly</li>
+            <li><strong>Wholesale forbidden by state law</strong></li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Indiana</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (RB20001987)</div>
+          <ul>
+            <li><strong>Broker must attend closing in person</strong> — $299 additional fee</li>
+            <li><strong>Exception:</strong> If seller is also closing remotely, full remote closing is allowed and broker attendance not required</li>
+            <li>Exception: Commercial property closings</li>
+            <li>Exception: If client or authorized representative does not appear in person</li>
+            <li><strong>Closing must be reported the same day to the MLS</strong> — even if ALTA/Settlement has not been sent yet</li>
+            <li>Wholesale forbidden on Southern Indiana MLS and MIBOR MLS</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Michigan</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (6502432825)</div>
+          <ul>
+            <li>List on MLS and market property</li>
+            <li>Disclose known material facts</li>
+            <li>Present all offers and counteroffers</li>
+            <li>Configure ShowingTime/BrokerBay access (broker does not arrange showings)</li>
+            <li>Seller must complete required disclosures</li>
+            <li><strong>Realcomp MLS:</strong> Upload all disclosures before editing or publishing — mandatory</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Minnesota</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (40493701)</div>
+          <ul>
+            <li>Comply with statutory broker disclosure requirements per Minn. Stat. §82.66</li>
+            <li>Submit listings to MLS</li>
+            <li>No buyer-agent commission sharing</li>
+            <li>Exclusive Right to Sell (24 or 36-month term)</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 North Carolina</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Craig Tribus (352783)</div>
+          <ul>
+            <li>Listing type: <strong>Open</strong></li>
+            <li><strong>Certified floor plan required</strong> — must report Heated Living Area from a certified floor plan. Only heated connected rooms count. Accepted sources:</li>
+            <ul>
+              <li>NC certified floor plan professional</li>
+              <li>NC certified appraiser</li>
+              <li>Floor plan certified by professional not older than 30 days with room measurements, date, and author</li>
+              <li>CubiCasa app</li>
+            </ul>
+            <li>If not available: coordinate with third-party certified floor plan professional ($199 fee)</li>
+            <li><strong>POA must be notarized</strong> — signed and notarized by the owner, not the seller</li>
+            <li>Agreements expire at <strong>24 months</strong></li>
+            <li>Basement sqft cannot be included in living area sqft</li>
+            <li>Wholesale forbidden on Doorify MLS</li>
+            <li>Broker does not present or negotiate offers</li>
+            <li>Seller coordinates showings and documents</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Ohio</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (BRKP.2024001687)</div>
+          <ul>
+            <li>Submit listings to MLS and advertise online</li>
+            <li>Wholesale allowed <strong>only if agreement is signed by all parties</strong></li>
+            <li><strong>Columbus and Central OH MLS:</strong> SqFt Documented field must be filled at time of listing (auto-populated from tax data), or official documentation must be provided to MLS staff within 15 days of entry</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 South Carolina</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (116486)</div>
+          <ul>
+            <li>List property in MLS and syndicate to partner websites</li>
+            <li>Entry-only flat-fee — no negotiation, pricing, or showing services</li>
+            <li><strong>Wholesale forbidden by state law</strong></li>
+            <li>Seller responsible for disclosures and property access</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Tennessee</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (383485)</div>
+          <ul>
+            <li>Present and forward all offers promptly</li>
+            <li>Exclusive Right to Sell, limited services — no showings or pricing support</li>
+            <li>Wholesale forbidden on: Knoxville Area MLS, Tennessee Virginia Regional MLS, Upper Cumberland MLS, Realtracs MLS</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Texas</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (TREC #779766)</div>
+          <ul>
+            <li>Entry-only flat-fee — no showings, pricing, or negotiation</li>
+            <li><strong>CMA not available</strong> (closing prices not public record)</li>
+            <li><strong>Wholesale forbidden on all Texas MLS</strong></li>
+            <li>HAR: <strong>minimum 6 photos</strong> for residential</li>
+            <li>NTREIS: minimum 1 photo</li>
+            <li>No prepay title option in Texas</li>
+          </ul>
+        </div>
+
+        <div class="state-card">
+          <h4>🏠 Virginia</h4>
+          <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno</div>
+          <ul>
+            <li>List and maintain property in MLS</li>
+            <li>Forward inquiries, showing requests, offers to seller</li>
+            <li>If property is a condo or subject to POA, seller must provide the applicable resale certificate/document package</li>
+            <li>Wholesale forbidden on REIN MLS and CVR Central Virginia Regional MLS</li>
+            <li>Entry-only — no showings, pricing, or negotiation</li>
+          </ul>
+        </div>
+
+        <div class="callout info">
+          <label>Broker contacts</label>
+          Craig Tribus (NC): ctribusrea@cox.net / craig@beycome.com<br>
+          Jeffrey Sklar (CA, IL): jeffreysklar4@gmail.com / jeffrey@beycome.com<br>
+          Steven Koleno (most states): steve@beycome.com<br>
+          Misael Chacon (IL): misael@beycome.com
+        </div>
+      </div>
+    `
+  },
+  {
+    id: 14,
+    title: "Common Mistakes",
+    content: `
+      <div class="content-page-header"><div class="num">14</div><h2>Common Mistakes & How to Avoid Them</h2></div>
+      <div class="content-body">
+        <p class="lead">These are the most frequent errors on the MLS data entry team. Every one of them has caused real problems. Learn them before they happen to you.</p>
+        <table>
+          <thead><tr><th>#</th><th>Mistake</th><th>What happens</th><th>How to avoid it</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Missing unit number</strong></td>
+              <td>Listing shows wrong address on MLS. Can cause listing rejection or buyers showing up at the wrong unit.</td>
+              <td>For any condo, townhouse, or multi-unit property — always check for a unit number. If the address has no unit number but the property type is a condo, stop and verify with the seller before listing.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Not adding seller contact info to showing instructions</strong></td>
+              <td>Buyers' agents cannot reach the seller. Showings don't get scheduled. Seller loses visibility and appointments.</td>
+              <td>The Showings section in Step 4 contains the seller's name, phone, and email. Every one of these fields must be entered into the MLS showing system (ShowingTime or BrokerBay). Do not skip.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Not activating ShowingTime or BrokerBay</strong></td>
+              <td>Agents cannot book showings through the MLS. The seller misses all showing requests that come through the system.</td>
+              <td>After entering the listing data, always configure and activate ShowingTime (or BrokerBay if that MLS uses it). Check that the seller's contact info is correctly entered and the system is active before marking the listing complete.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Wrong bedroom sizes / room dimensions</strong></td>
+              <td>Inaccurate data violates MLS rules and misleads buyers. Can result in MLS fines or complaints.</td>
+              <td>Enter room dimensions exactly as the seller provided them in the questionnaire. Do not estimate or round. If dimensions are missing, check the questionnaire — do not fill in placeholder numbers.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Wrong bed or bath count</strong></td>
+              <td>Listing appears in wrong search results. Buyers are misled. Creates seller complaints and potential MLS compliance issues.</td>
+              <td>Always double-check bed and bath counts against the questionnaire before submitting. Full baths and half baths are separate fields — do not confuse them.</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>Not uploading disclosures before publishing</strong></td>
+              <td>MLS compliance violation — especially serious on Realcomp (Michigan) where disclosures must be uploaded before any editing or publishing.</td>
+              <td>Always upload all disclosures listed in Step 4 to the MLS before you publish the listing. This is non-negotiable.</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>Uploading the Beycome Listing Agreement to the MLS</strong></td>
+              <td>This is a private proprietary document. Uploading it publicly exposes confidential terms.</td>
+              <td>Never upload the Beycome Listing Agreement to the MLS. Exception: Smart MLS, Houston MLS, My State MLS — only upload it set to "broker private only."</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><strong>Mentioning commission or compensation in MLS fields</strong></td>
+              <td>Direct NAR regulation violation — can result in MLS fines or suspension.</td>
+              <td>No commission, concession, compensation, or bonus language in any MLS field. Not in description, not in remarks, not anywhere.</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td><strong>Wrong first photo (e.g., pool photo)</strong></td>
+              <td>MLS compliance violation. Listing can be flagged or the photo can be removed by the MLS.</td>
+              <td>First photo must be front exterior, rendering, aerial, or water view. A pool does not qualify as a water view.</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td><strong>Not publishing within 2 hours</strong></td>
+              <td>MLS compliance issue. A delay of a day or more may require a new listing agreement to match the listing date.</td>
+              <td>Prioritize new listings. Start as soon as you pick one up. If you hit a block, set the correct status and notify Yaelyn immediately — do not let it sit.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `
+  },
+  {
+    id: 15,
+    title: "Scenario Lab",
+    content: `
+      <div class="content-page-header"><div class="num">15</div><h2>Scenario Lab</h2></div>
+      <div class="content-body">
+        <p class="lead">Work through these real-world scenarios. Check each step you would take, then review the correct approach.</p>
+
+        <div class="scenario-block">
+          <div class="scenario-header">Scenario 1 — Missing Unit Number</div>
+          <div class="scenario-body">
+            <p>You pick up a new listing. The address in the Back Office shows <strong>"819 B St, New Smyrna Beach, FL 32168"</strong> with no unit number. The property subtype is <strong>Condo</strong>. What do you do?</p>
+            <p><strong>Check the steps you would take:</strong></p>
+            <ul class="scenario-checklist">
+              <li><label><input type="checkbox"> List the property as-is — the address might not have a unit number</label></li>
+              <li><label><input type="checkbox"> Stop before proceeding to Step 4</label></li>
+              <li><label><input type="checkbox"> Check the questionnaire and county records to see if a unit number exists</label></li>
+              <li><label><input type="checkbox"> If no unit number can be confirmed, set Incomplete and notify the seller via BO notes to provide the correct unit number</label></li>
+              <li><label><input type="checkbox"> Message Yaelyn on Cliq if unsure how to proceed</label></li>
+            </ul>
+            <div class="callout success"><label>Correct approach</label>Never list a condo without verifying the unit number. Stop, check county records and the questionnaire. If it can't be confirmed, set Incomplete and notify the seller. Never guess or list with an incomplete address.</div>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-header">Scenario 2 — Two Owners, One Signature</div>
+          <div class="scenario-body">
+            <p>You're on Step 3 (Ownership). County records show <strong>two legal owners: John Smith and Mary Smith</strong>. The Beycome listing agreement has only <strong>John Smith's signature</strong>. The seller is messaging asking why it's taking so long. What do you do?</p>
+            <ul class="scenario-checklist">
+              <li><label><input type="checkbox"> List it anyway — one signature is usually enough</label></li>
+              <li><label><input type="checkbox"> Set the listing to Incomplete "Missing Signature"</label></li>
+              <li><label><input type="checkbox"> Notify the client via BO notes that Mary Smith must also sign the listing agreement before the property can be listed</label></li>
+              <li><label><input type="checkbox"> Do not rush listing because the seller is impatient — ownership verification is non-negotiable</label></li>
+            </ul>
+            <div class="callout success"><label>Correct approach</label>When county shows two owners, both must sign. Set Incomplete "Missing Signature," notify the seller via BO notes, and wait. Do not list under any pressure until all owners have signed.</div>
+          </div>
+        </div>
+
+        <div class="scenario-block">
+          <div class="scenario-header">Scenario 3 — Automation Stuck, NC Property</div>
+          <div class="scenario-body">
+            <p>You're in Step 4 for a <strong>North Carolina property</strong>. You click "Automatic List" and connect to the remote access app, but the automation gets stuck and shows an error. The MLS reservation is running out. What do you do?</p>
+            <ul class="scenario-checklist">
+              <li><label><input type="checkbox"> Keep trying the automation until it works</label></li>
+              <li><label><input type="checkbox"> Set the listing to Incomplete "Others"</label></li>
+              <li><label><input type="checkbox"> Report the issue to #Tech on Cliq with the listing ID and MLS name</label></li>
+              <li><label><input type="checkbox"> Release the MLS reservation so no one else is locked out</label></li>
+              <li><label><input type="checkbox"> Also verify the NC floor plan was uploaded before the automation issue — if not, set Incomplete "Missing Floorplan" as well</label></li>
+            </ul>
+            <div class="callout success"><label>Correct approach</label>If automation is stuck, set Incomplete "Others" and report to #Tech immediately with the listing ID. Do not leave the MLS reserved if you're not actively working in it. NC properties also require a verified certified floor plan — make sure that's confirmed separately.</div>
+          </div>
+        </div>
+
+      </div>
+    `
+  },
+  {
+    id: 16,
+    title: "Final Certification",
+    content: `
+      <div class="content-page-header"><div class="num">16</div><h2>Final Certification</h2></div>
+      <div class="content-body">
+        <p class="lead">Complete the final review. Answer all questions correctly to earn your MLS Data Entry Certification.</p>
+        <h3>Your progress</h3>
+        <div id="cert-progress-block" style="margin-bottom:24px;"></div>
+        <h3>Badges earned</h3>
+        <div class="badges-grid" id="cert-badges"></div>
+      </div>
+    `
+  }
+];
+
+// ── Quiz configuration ──────────────────────────────────────────────────────
+const quizConfig = {
+  2: {
+    title: 'Knowledge Check · The MLS Listings Queue',
+    questions: [
+      {
+        id: 's2q1',
+        prompt: 'A listing shows status "Incomplete." What does this mean?',
+        options: ['A rep is actively working on it', 'Something is missing — the seller needs to log in and fix or upload something', 'It is waiting for manager approval', 'It has already been listed on the MLS'],
+        correct: 1,
+        explanation: 'Incomplete means something is missing that requires the seller to log back into their Beycome account to fix or upload.'
+      },
+      {
+        id: 's2q2',
+        prompt: 'What is the first action when picking up a New listing?',
+        options: ['Log into the MLS right away', 'Click Actions → "List MLS", self-assign, and change status to In Progress', 'Email the seller for confirmation before starting', 'Upload the county record screenshot first'],
+        correct: 1,
+        explanation: 'You click Actions → "List MLS", self-assign to claim the listing, and change status to In Progress before doing anything else.'
+      }
+    ]
+  },
+  6: {
+    title: 'Knowledge Check · Check Ownership',
+    questions: [
+      {
+        id: 's6q1',
+        prompt: 'County records show two legal owners. The Beycome listing agreement is only signed by one. What do you do?',
+        options: ['List it — one signature is enough if they are the primary seller', 'Set Incomplete "Missing Signature" and notify the client via BO notes that both owners must sign', 'Ask Yaelyn to approve a one-signature exception', 'Proceed to Step 4 and fix it after listing'],
+        correct: 1,
+        explanation: 'When county shows two owners, both must sign the Beycome listing agreement. Set Incomplete "Missing Signature" and notify the client.'
+      },
+      {
+        id: 's6q2',
+        prompt: 'The seller\'s name is "Jane Smith" but county shows the owner is "Smith Family Trust." How should the agreement be signed?',
+        options: ['"Jane Smith" only', '"Jane Smith" and the trust attorney', '"Jane Smith for Smith Family Trust" (Seller for Trust name)', 'The trust does not need to sign — the seller is enough'],
+        correct: 2,
+        explanation: 'When the owner is a Trust, the agreement is signed as "Seller for Trust name" — in this case, "Jane Smith for Smith Family Trust."'
+      }
+    ]
+  },
+  7: {
+    title: 'Knowledge Check · List on MLS',
+    questions: [
+      {
+        id: 's7q1',
+        prompt: 'Before logging into any MLS, what must you always verify first?',
+        options: ['The seller has uploaded photos to the questionnaire', 'The MLS shows a green dot and you have reserved your session', 'You have Yaelyn\'s approval to list', 'The parcel number is confirmed by the county'],
+        correct: 1,
+        explanation: 'The MLS must show a green dot (available) and you must reserve your session (20 min for new listings) before logging in to prevent simultaneous access.'
+      },
+      {
+        id: 's7q2',
+        prompt: 'When should you publish/activate a listing after completing all steps?',
+        options: ['After the seller confirms they are ready', 'After getting manager approval', 'Immediately — no waiting for client confirmation', 'Within 24 hours of completing the entry'],
+        correct: 2,
+        explanation: 'Publish directly and immediately. No waiting for client confirmation or approval. The 2-hour rule applies from when the questionnaire was completed.'
+      }
+    ]
+  },
+  10: {
+    title: 'Knowledge Check · Photo Rules',
+    questions: [
+      {
+        id: 's10q1',
+        prompt: 'What is the minimum number of photos required for a residential listing on HAR (Houston, Texas)?',
+        options: ['1', '3', '6', '10'],
+        correct: 2,
+        explanation: 'HAR requires a minimum of 6 photos for residential listings. Most other MLS require 3. Land requires 1.'
+      },
+      {
+        id: 's10q2',
+        prompt: 'A seller submitted a photo of their swimming pool as the primary/first photo. What do you do?',
+        options: ['Keep it — pools are a strong selling feature', 'Replace it — first photo must be front exterior, rendering, aerial, or water view. A pool does not qualify as a water view.', 'Ask the seller if they want to change it before listing', 'It depends on which MLS — some allow it'],
+        correct: 1,
+        explanation: 'A swimming pool photo does not qualify as a water view. The first photo must be a front exterior, rendering, aerial photo, or actual water view. Replace it with a compliant photo.'
+      }
+    ]
+  },
+  12: {
+    title: 'Knowledge Check · Forbidden Types & Concierge',
+    questions: [
+      {
+        id: 's12q1',
+        prompt: 'A seller wants to list their property as an auction. What is the correct response?',
+        options: ['Accept it if they have the Concierge package', 'Refuse — auctions are absolutely forbidden with no exceptions and no packages', 'Ask Yaelyn for a case-by-case approval', 'List on My State MLS instead, which may allow it'],
+        correct: 1,
+        explanation: 'Auctions are absolutely forbidden — no package, no exception, no workaround. Same applies to Tax Lien Sale, Foreclosure, and Remainderman\'s right.'
+      },
+      {
+        id: 's12q2',
+        prompt: 'A seller has a Short Sale situation. What do they need to proceed with Beycome?',
+        options: ['Nothing extra — Short Sale is a standard listing type', 'It is forbidden like auctions — cannot be done', 'They need the Concierge Package for limited support', 'They need a notarized POA from the lender'],
+        correct: 2,
+        explanation: 'Short Sale has limited support but requires the Concierge Package. It is not forbidden, but it cannot be listed on a Basic or Enhanced package.'
+      }
+    ]
+  },
+  16: {
+    title: 'Final Certification · MLS Data Entry',
+    questions: [
+      {
+        id: 's16q1',
+        prompt: 'What is the maximum time allowed to publish a listing after receiving a completed MLS Questionnaire?',
+        options: ['24 hours', '48 hours — 2 business days', '2 hours', 'Same business day by 5pm'],
+        correct: 2,
+        explanation: 'Listings must be published within 2 hours of receiving a completed questionnaire. Delays of a day or more may require a new listing agreement.'
+      },
+      {
+        id: 's16q2',
+        prompt: 'What must NEVER appear in any MLS field under any circumstances?',
+        options: ['Property square footage', 'Agent compensation or commission (NAR regulation)', 'The listing price', 'The property type'],
+        correct: 1,
+        explanation: 'NAR regulation forbids mentioning agent compensation or commission in any MLS field. This applies to description, remarks, and every other field.'
+      },
+      {
+        id: 's16q3',
+        prompt: 'The MLS is having a technical issue and you cannot complete the listing. What is the correct action?',
+        options: ['Wait until tomorrow and try again', 'Ask the seller to contact the MLS directly', 'Set Incomplete "Others," report to #Tech on Cliq, and propose My State MLS as a temporary alternative', 'Cancel the listing and issue a refund'],
+        correct: 2,
+        explanation: 'If the MLS has a technical issue, set Incomplete "Others", report to #Tech on Cliq, and propose listing on My State MLS temporarily until the issue is resolved.'
+      },
+      {
+        id: 's16q4',
+        prompt: 'County records show two legal owners. Only one has signed. The seller is pressuring you to list immediately. What do you do?',
+        options: ['List it — one signature is enough with seller\'s verbal confirmation', 'List it and note the issue for later', 'Set Incomplete "Missing Signature," notify the client, and do not list until both owners have signed', 'Escalate to Yaelyn and let her decide whether to list'],
+        correct: 2,
+        explanation: 'Ownership verification is non-negotiable. Both owners must sign before listing. No amount of seller pressure changes this. Set Incomplete and notify the client.'
+      }
+    ]
+  }
+};
+
+const QUIZ_SECTIONS = new Set([2, 6, 7, 10, 12, 16]);
+const ASSESSMENT_SECTIONS = new Set([15, 16]);
+
+const badgeConfig = [
+  { id: 'first-steps', title: 'First Steps', icon: '🚀', rule: state => state.visitedSections.length >= 3 },
+  { id: 'ownership-expert', title: 'Ownership Expert', icon: '🔐', rule: state => { const a = state.quizAttempts['6']; return a && a.correctCount === a.total; } },
+  { id: 'mls-ready', title: 'MLS Ready', icon: '🏠', rule: state => state.visitedSections.includes(7) },
+  { id: 'photo-pro', title: 'Photo Pro', icon: '📸', rule: state => { const a = state.quizAttempts['10']; return a && a.correctCount === a.total; } },
+  { id: 'rule-master', title: 'Rule Master', icon: '📋', rule: state => { const a = state.quizAttempts['12']; return a && a.correctCount === a.total; } },
+  { id: 'certified', title: 'MLS Certified', icon: '🎓', rule: state => !!state.quizAttempts['16'] },
+  { id: 'perfect-run', title: 'Perfect Run', icon: '⭐', rule: state => QUIZ_SECTIONS.size > 0 && [...QUIZ_SECTIONS].every(sid => { const a = state.quizAttempts[String(sid)]; return a && a.correctCount === a.total; }) }
+];
+
+// ── State management ─────────────────────────────────────────────────────────
+let currentPage = 1;
+let appState = loadState();
+
+function getDefaultState() {
+  return { started: false, currentPage: 1, visitedSections: [], completedSections: [], quizAttempts: {} };
+}
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('beycome-mls-training');
+    return saved ? JSON.parse(saved) : getDefaultState();
+  } catch(e) { return getDefaultState(); }
+}
+
+function saveState() {
+  try { localStorage.setItem('beycome-mls-training', JSON.stringify(appState)); } catch(e) {}
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+function goHome() {
+  document.getElementById('welcome-view').classList.add('active');
+  document.getElementById('content-view').classList.remove('active');
+}
+
+function startTraining() {
+  document.getElementById('welcome-view').classList.remove('active');
+  document.getElementById('content-view').classList.add('active');
+  appState.started = true;
+  saveState();
+  displayPage(appState.currentPage || 1);
+}
+
+function buildTOC() {
+  const list = document.getElementById('toc-list');
+  if (!list) return;
+  list.innerHTML = sections.map((s, i) => `
+    <div class="toc-item">
+      <div class="num">${i + 1}</div>
+      <div class="title">${s.title}</div>
+    </div>
+  `).join('');
+}
+
+function buildJumpNav() {
+  const nav = document.getElementById('jump-nav');
+  if (!nav) return;
+  nav.innerHTML = sections.map((s, i) => {
+    const page = i + 1;
+    const done = appState.completedSections.includes(s.id);
+    const active = page === currentPage;
+    return `<button class="jump-link${active ? ' active' : ''}${done ? ' done' : ''}" onclick="displayPage(${page})">${page}. ${s.title}</button>`;
+  }).join('');
+}
+
+function updateStats() {
+  const total = sections.length;
+  const completed = appState.completedSections.length;
+  document.getElementById('stat-sections').textContent = `${completed} / ${total}`;
+  document.getElementById('progress-bar').style.width = `${(completed / total) * 100}%`;
+
+  const allAttempts = Object.values(appState.quizAttempts);
+  if (allAttempts.length > 0) {
+    const totalCorrect = allAttempts.reduce((sum, a) => sum + (a.correctCount || 0), 0);
+    const totalQ = allAttempts.reduce((sum, a) => sum + (a.total || 0), 0);
+    document.getElementById('stat-score').textContent = `${totalCorrect}/${totalQ}`;
+  }
+
+  const earnedBadges = badgeConfig.filter(b => b.rule(appState)).length;
+  document.getElementById('stat-badges').textContent = earnedBadges;
+}
+
+function markVisited(sectionId) {
+  if (!appState.visitedSections.includes(sectionId)) appState.visitedSections.push(sectionId);
+  if (!ASSESSMENT_SECTIONS.has(sectionId) && !appState.completedSections.includes(sectionId)) {
+    appState.completedSections.push(sectionId);
+  }
+  saveState();
+}
+
+function displayPage(pageNum) {
+  if (pageNum < 1 || pageNum > sections.length) return;
+  currentPage = pageNum;
+  appState.currentPage = pageNum;
+
+  const section = sections[pageNum - 1];
+  markVisited(section.id);
+
+  const container = document.getElementById('content-container');
+  container.innerHTML = section.content;
+
+  document.getElementById('current-page-num').textContent = pageNum;
+  document.getElementById('total-pages').textContent = sections.length;
+  document.getElementById('prev-btn').disabled = pageNum === 1;
+  document.getElementById('next-btn').disabled = pageNum === sections.length;
+
+  buildJumpNav();
+  updateStats();
+  renderAssessments(section.id);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  saveState();
+}
+
+function renderAssessments(sectionId) {
+  if (sectionId === 16) { renderCertProgress(); }
+  if (quizConfig[sectionId]) renderQuiz(sectionId);
+}
+
+function renderCertProgress() {
+  const block = document.getElementById('cert-progress-block');
+  if (!block) return;
+  const total = sections.length;
+  const completed = appState.completedSections.length;
+  const quizSections = [...QUIZ_SECTIONS];
+  const quizCompleted = quizSections.filter(sid => appState.quizAttempts[String(sid)]).length;
+  block.innerHTML = `
+    <table>
+      <tbody>
+        <tr><td>Sections read</td><td><strong>${completed} / ${total}</strong></td></tr>
+        <tr><td>Quizzes completed</td><td><strong>${quizCompleted} / ${QUIZ_SECTIONS.size}</strong></td></tr>
+      </tbody>
+    </table>
+  `;
+  const badgesEl = document.getElementById('cert-badges');
+  if (badgesEl) {
+    badgesEl.innerHTML = badgeConfig.map(b => {
+      const earned = b.rule(appState);
+      return `<div class="badge${earned ? '' : ' locked'}"><span class="badge-icon">${b.icon}</span>${b.title}</div>`;
+    }).join('');
+  }
+}
+
+function renderQuiz(sectionId) {
+  const quiz = quizConfig[sectionId];
+  if (!quiz) return;
+  const container = document.getElementById('content-container');
+  const prior = appState.quizAttempts[String(sectionId)];
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'assessment-block';
+  wrapper.innerHTML = `
+    <div class="assessment-header">📝 ${quiz.title}</div>
+    <div class="assessment-body" id="quiz-body-${sectionId}">
+      ${quiz.questions.map((q, qi) => `
+        <div class="quiz-question">
+          <p>${qi + 1}. ${q.prompt}</p>
+          ${q.options.map((opt, oi) => `
+            <label class="quiz-option">
+              <input type="radio" name="quiz-${sectionId}-${q.id}" value="${oi}" ${prior && prior.answers && prior.answers[q.id] === oi ? 'checked' : ''}>
+              <span>${opt}</span>
+            </label>
+          `).join('')}
+          <div id="feedback-${sectionId}-${q.id}"></div>
+        </div>
+      `).join('')}
+      <button class="mini-button" onclick="submitQuiz(${sectionId})">Submit Answers</button>
+      <button class="mini-button ghost" onclick="resetQuiz(${sectionId})">Retake</button>
+      <span class="status-text" id="quiz-status-${sectionId}">${prior ? `Score: ${prior.correctCount}/${prior.total}` : 'Not submitted yet'}</span>
+    </div>
+  `;
+  container.appendChild(wrapper);
+
+  if (prior && prior.answers) {
+    quiz.questions.forEach(q => {
+      const feedback = document.getElementById(`feedback-${sectionId}-${q.id}`);
+      if (feedback && prior.answers[q.id] !== undefined) {
+        const correct = prior.answers[q.id] === q.correct;
+        feedback.innerHTML = `<div class="quiz-feedback ${correct ? 'correct' : 'incorrect'}">${correct ? '✓ Correct' : '✗ ' + q.explanation}</div>`;
+      }
+    });
+  }
+}
+
+function submitQuiz(sectionId) {
+  const quiz = quizConfig[sectionId];
+  let correctCount = 0;
+  const answers = {};
+  let allAnswered = true;
+
+  for (const q of quiz.questions) {
+    const selected = document.querySelector(`input[name="quiz-${sectionId}-${q.id}"]:checked`);
+    if (!selected) { allAnswered = false; break; }
+    const val = parseInt(selected.value);
+    answers[q.id] = val;
+    const correct = val === q.correct;
+    if (correct) correctCount++;
+    const feedback = document.getElementById(`feedback-${sectionId}-${q.id}`);
+    if (feedback) feedback.innerHTML = `<div class="quiz-feedback ${correct ? 'correct' : 'incorrect'}">${correct ? '✓ Correct' : '✗ ' + q.explanation}</div>`;
+  }
+
+  if (!allAnswered) {
+    const status = document.getElementById(`quiz-status-${sectionId}`);
+    if (status) status.textContent = 'Please answer all questions before submitting.';
+    return;
+  }
+
+  appState.quizAttempts[String(sectionId)] = { correctCount, total: quiz.questions.length, answers };
+  if (!appState.completedSections.includes(sectionId)) appState.completedSections.push(sectionId);
+  saveState();
+  updateStats();
+
+  const status = document.getElementById(`quiz-status-${sectionId}`);
+  if (status) status.textContent = `Score: ${correctCount}/${quiz.questions.length}`;
+}
+
+function resetQuiz(sectionId) {
+  delete appState.quizAttempts[String(sectionId)];
+  saveState();
+  displayPage(currentPage);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+buildTOC();
+updateStats();
+if (appState.started) {
+  document.getElementById('welcome-view').classList.remove('active');
+  document.getElementById('content-view').classList.add('active');
+  displayPage(appState.currentPage || 1);
+}
+</script>
+</body>
+</html>
