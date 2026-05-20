@@ -167,6 +167,11 @@
       .content-page { padding: 28px 18px; }
       .header-stats { display: none; }
     }
+
+    @media print {
+      body > *:not(#print-cert-wrapper) { display: none !important; }
+      #print-cert-wrapper { display: block !important; position: static !important; }
+    }
   </style>
 </head>
 <body>
@@ -223,6 +228,61 @@
 
   </div>
 </main>
+
+<!-- Quick Ref floating button -->
+<button id="quick-ref-btn" onclick="toggleQuickRef()"
+  style="display:none;position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--indigo);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);">
+  📋 Quick Ref
+</button>
+
+<!-- Quick Ref Modal -->
+<div id="quick-ref-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.5);overflow-y:auto;">
+  <div style="max-width:720px;margin:40px auto;background:#fff;border-radius:16px;padding:40px;position:relative;">
+    <button onclick="toggleQuickRef()" style="position:absolute;top:16px;right:20px;background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
+    <button onclick="printQuickRef()" style="position:absolute;top:16px;right:56px;background:var(--coral);color:#fff;border:none;border-radius:6px;padding:6px 14px;font-weight:700;font-size:12px;cursor:pointer;">🖨 Print</button>
+    <div id="quick-ref-content">
+      <h2 style="margin-top:0;color:var(--indigo);">MLS Quick Reference</h2>
+      <h3 style="margin-top:20px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Turnaround</h3>
+      <p style="font-size:14px;margin-bottom:8px;">Same-day goal &nbsp;·&nbsp; <strong>48-hour maximum</strong> from completed questionnaire. Significant delays may require a new listing agreement.</p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">VPN</h3>
+      <p style="font-size:14px;margin-bottom:8px;"><strong>Always on</strong> with Miami exit node before accessing any MLS. If you cannot connect, stop and message Yaelyn before proceeding.</p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Queue Statuses</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;">
+        <thead><tr style="background:var(--navy);color:#fff;"><th style="padding:8px 10px;text-align:left;">Status</th><th style="padding:8px 10px;text-align:left;">Meaning</th></tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 10px;"><strong>New</strong></td><td style="padding:8px 10px;">Seller completed questionnaire — unassigned</td></tr>
+          <tr style="border-bottom:1px solid #eee;background:#fafbff;"><td style="padding:8px 10px;"><strong>For Review</strong></td><td style="padding:8px 10px;">Blocked — photos, floor plan, ownership issue, MLS issue</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 10px;"><strong>In Progress</strong></td><td style="padding:8px 10px;">Rep self-assigned, actively working — do not touch</td></tr>
+          <tr style="border-bottom:1px solid #eee;background:#fafbff;"><td style="padding:8px 10px;"><strong>Incomplete</strong></td><td style="padding:8px 10px;">Seller must log in and fix or upload something</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 10px;"><strong>Automation Error</strong></td><td style="padding:8px 10px;">Automation stuck/failed — report to #Tech on Cliq</td></tr>
+          <tr style="background:#fafbff;"><td style="padding:8px 10px;"><strong>Active / Listed</strong></td><td style="padding:8px 10px;">Successfully published — no action needed</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">First Photo Rule</h3>
+      <p style="font-size:14px;margin-bottom:8px;">Must be <strong>front exterior, rendering, aerial, or water view only</strong>. A swimming pool does NOT qualify as a water view.</p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Photo Minimums</h3>
+      <p style="font-size:14px;margin-bottom:8px;">Most MLS residential: <strong>3</strong> &nbsp;·&nbsp; HAR (Houston): <strong>6</strong> &nbsp;·&nbsp; Land (most MLS): <strong>1</strong> &nbsp;·&nbsp; NTREIS: <strong>1</strong></p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Absolutely Forbidden Types</h3>
+      <p style="font-size:14px;margin-bottom:8px;background:#fdecea;padding:8px 12px;border-radius:6px;"><strong>Auction &nbsp;·&nbsp; Tax Lien Sale &nbsp;·&nbsp; Foreclosure &nbsp;·&nbsp; Remainderman's right</strong> — no exceptions, no packages.</p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Wholesale Forbidden States</h3>
+      <p style="font-size:14px;margin-bottom:8px;"><strong>IL, SC, DC, MA, MD, NJ, NY, OK, PA, RI, UT, WI</strong> (by state law). Ohio: allowed only if agreement signed by all parties.</p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Ownership Signatures</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;">
+        <thead><tr style="background:var(--navy);color:#fff;"><th style="padding:8px 10px;text-align:left;">Scenario</th><th style="padding:8px 10px;text-align:left;">Sign as</th></tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 10px;">Owner is a Trust</td><td style="padding:8px 10px;">"Seller for Trust name"</td></tr>
+          <tr style="border-bottom:1px solid #eee;background:#fafbff;"><td style="padding:8px 10px;">Owner is LLC / Corp</td><td style="padding:8px 10px;">"Seller, Member/Manager" or "Seller for Company name"</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 10px;">Two owners</td><td style="padding:8px 10px;">Both must sign</td></tr>
+          <tr style="background:#fafbff;"><td style="padding:8px 10px;">Owner deceased (Estate)</td><td style="padding:8px 10px;">"Estate of Owner, by Seller, Personal Representative"</td></tr>
+        </tbody>
+      </table>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">NAR Compensation Rule</h3>
+      <p style="font-size:14px;margin-bottom:8px;"><strong>No agent compensation or commission in ANY MLS field</strong> — ever. No description, remarks, or any other field.</p>
+      <h3 style="margin-top:16px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Questions?</h3>
+      <p style="font-size:14px;margin-bottom:0;">Contact <strong>Yaelyn on Cliq</strong>. When in doubt, ask before you act.</p>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">Beycome MLS Data Entry Training · Internal Use Only · Report issues to Yaelyn via Cliq</div>
@@ -547,7 +607,31 @@ const sections = [
         <h3>CMA not available (closing prices not public record)</h3>
         <p>TX, AK, ID, KS, LA, MO, MS, MT, ND, NM, WY</p>
 
-        <div class="state-card">
+        <h3>State details</h3>
+        <div style="margin-bottom:16px;">
+          <label style="font-weight:600;margin-right:8px;">Filter by State:</label>
+          <select id="state-filter" onchange="filterStateTable()" style="padding:8px 12px;border-radius:6px;border:1px solid #ddd;font-size:14px;">
+            <option value="">— Show All States —</option>
+            <option value="AL">Alabama</option>
+            <option value="CA">California</option>
+            <option value="CT">Connecticut</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="NC">North Carolina</option>
+            <option value="OH">Ohio</option>
+            <option value="SC">South Carolina</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="VA">Virginia</option>
+          </select>
+        </div>
+        <div id="state-cards-wrapper">
+
+        <div class="state-card" data-state="AL">
           <h4>🏠 Alabama</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (134784)</div>
           <ul>
@@ -558,7 +642,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="CA">
           <h4>🏠 California</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty Inc &nbsp;·&nbsp; Broker: Jeffrey Sklar (CalBRE #02075404)</div>
           <ul>
@@ -570,7 +654,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="CT">
           <h4>🏠 Connecticut</h4>
           <div class="broker-line">Entity: Beycome of Connecticut &nbsp;·&nbsp; Broker: Steve Koleno (REB.0792869)</div>
           <ul>
@@ -581,7 +665,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="FL">
           <h4>🏠 Florida</h4>
           <div class="broker-line">Entity: Beycome of Florida LLC &nbsp;·&nbsp; Broker: Steve Koleno (BK3469487)</div>
           <ul>
@@ -593,7 +677,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="GA">
           <h4>🏠 Georgia</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (396707)</div>
           <ul>
@@ -604,7 +688,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="IL">
           <h4>🏠 Illinois</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Misael Chacon (471021523) · Co-Broker: Jeffrey Sklar</div>
           <ul>
@@ -617,7 +701,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="IN">
           <h4>🏠 Indiana</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (RB20001987)</div>
           <ul>
@@ -630,7 +714,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="MI">
           <h4>🏠 Michigan</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (6502432825)</div>
           <ul>
@@ -643,7 +727,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="MN">
           <h4>🏠 Minnesota</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (40493701)</div>
           <ul>
@@ -654,7 +738,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="NC">
           <h4>🏠 North Carolina</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Craig Tribus (352783)</div>
           <ul>
@@ -676,7 +760,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="OH">
           <h4>🏠 Ohio</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (BRKP.2024001687)</div>
           <ul>
@@ -686,7 +770,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="SC">
           <h4>🏠 South Carolina</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (116486)</div>
           <ul>
@@ -697,7 +781,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="TN">
           <h4>🏠 Tennessee</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (383485)</div>
           <ul>
@@ -707,7 +791,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="TX">
           <h4>🏠 Texas</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno (TREC #779766)</div>
           <ul>
@@ -720,7 +804,7 @@ const sections = [
           </ul>
         </div>
 
-        <div class="state-card">
+        <div class="state-card" data-state="VA">
           <h4>🏠 Virginia</h4>
           <div class="broker-line">Entity: Beycome Brokerage Realty LLC &nbsp;·&nbsp; Broker: Steve Koleno</div>
           <ul>
@@ -731,6 +815,8 @@ const sections = [
             <li>Entry-only — no showings, pricing, or negotiation</li>
           </ul>
         </div>
+
+        </div><!-- end state-cards-wrapper -->
 
         <div class="callout info">
           <label>Broker contacts</label>
@@ -1302,104 +1388,289 @@ const sections = [
 ];
 
 // ── Quiz configuration ──────────────────────────────────────────────────────
+// ── Passing score threshold ──────────────────────────────────────────────────
+const PASSING_SCORE = 0.80; // 80%
+
+// ── Quiz configuration ──────────────────────────────────────────────────────
 const quizConfig = {
   8: {
     title: 'Knowledge Check · The MLS Listings Queue',
+    displayCount: 4,
     questions: [
       {
-        id: 's2q1',
+        id: 's8q1',
         prompt: 'A listing shows status "Incomplete." What does this mean?',
         options: ['A rep is actively working on it', 'Something is missing — the seller needs to log in and fix or upload something', 'It is waiting for manager approval', 'It has already been listed on the MLS'],
         correct: 1,
         explanation: 'Incomplete means something is missing that requires the seller to log back into their Beycome account to fix or upload.'
       },
       {
-        id: 's2q2',
+        id: 's8q2',
         prompt: 'What is the first action when picking up a New listing?',
         options: ['Log into the MLS right away', 'Click Actions → "List MLS", self-assign, and change status to In Progress', 'Email the seller for confirmation before starting', 'Upload the county record screenshot first'],
         correct: 1,
         explanation: 'You click Actions → "List MLS", self-assign to claim the listing, and change status to In Progress before doing anything else.'
+      },
+      {
+        id: 's8q3',
+        prompt: 'What does the "For Review" status mean in the MLS Queue?',
+        options: ['A manager is reviewing the listing for quality', 'The listing is blocked — pending photos, approval, floor plan, ownership issue, or MLS issue', 'The listing has been published and is under review by the MLS board', 'A rep accidentally marked it and it needs to be reset'],
+        correct: 1,
+        explanation: '"For Review" means the listing is blocked for a specific reason — it could be pending photos, manager approval, NC floor plan, an ownership issue, or an MLS issue. Check the notes to see what is needed.'
+      },
+      {
+        id: 's8q4',
+        prompt: 'Which listings should you pick up from the queue?',
+        options: ['Any listing regardless of status', 'Only "In Progress" listings assigned to you', 'New or For Review listings that are unassigned', 'Only the oldest listings regardless of status'],
+        correct: 2,
+        explanation: 'You should only pick up listings in status "New" or "For Review" that are unassigned. Never work a listing already assigned to another rep.'
+      },
+      {
+        id: 's8q5',
+        prompt: 'What is the standard order for picking up listings in the queue?',
+        options: ['Random — pick whichever one looks simplest', 'Oldest first — work in order of arrival (latest listings first based on submission date)', 'Alphabetically by seller name', 'By state — all Florida listings before Texas'],
+        correct: 1,
+        explanation: 'Work in order of arrival — pick the latest listings first so newer questionnaires are not neglected.'
+      },
+      {
+        id: 's8q6',
+        prompt: 'When you set a listing to "Incomplete," what must you also do?',
+        options: ['Delete the listing and ask the seller to resubmit', 'Notify the client via Back Office notes explaining exactly what is missing', 'Call the seller on the phone to explain the issue', 'Escalate directly to Yaelyn without notifying the client'],
+        correct: 1,
+        explanation: 'When setting Incomplete, you must notify the client via BO notes explaining exactly what is needed (e.g., "Missing Parcel Number," "Missing Ownership," etc.).'
+      },
+      {
+        id: 's8q7',
+        prompt: 'What happens to an Incomplete MLS Questionnaire if the seller does not respond after 30 days?',
+        options: ['It is automatically listed after 30 days', 'It expires without refund and status changes to Expired', 'It is reassigned to another rep', 'Yaelyn contacts the seller by phone'],
+        correct: 1,
+        explanation: 'An Incomplete MLS Questionnaire that is reached multiple times without response expires without refund after 30 days and is changed to status Expired.'
       }
     ]
   },
   12: {
     title: 'Knowledge Check · Check Ownership',
+    displayCount: 4,
     questions: [
       {
-        id: 's6q1',
+        id: 's12q1',
         prompt: 'County records show two legal owners. The Beycome listing agreement is only signed by one. What do you do?',
         options: ['List it — one signature is enough if they are the primary seller', 'Set Incomplete "Missing Signature" and notify the client via BO notes that both owners must sign', 'Ask Yaelyn to approve a one-signature exception', 'Proceed to Step 4 and fix it after listing'],
         correct: 1,
         explanation: 'When county shows two owners, both must sign the Beycome listing agreement. Set Incomplete "Missing Signature" and notify the client.'
       },
       {
-        id: 's6q2',
+        id: 's12q2',
         prompt: 'The seller\'s name is "Jane Smith" but county shows the owner is "Smith Family Trust." How should the agreement be signed?',
         options: ['"Jane Smith" only', '"Jane Smith" and the trust attorney', '"Jane Smith for Smith Family Trust" (Seller for Trust name)', 'The trust does not need to sign — the seller is enough'],
         correct: 2,
         explanation: 'When the owner is a Trust, the agreement is signed as "Seller for Trust name" — in this case, "Jane Smith for Smith Family Trust."'
+      },
+      {
+        id: 's12q3',
+        prompt: 'The legal owner has passed away. The seller has Probate as Executor. How should the listing agreement be signed?',
+        options: ['Just the seller\'s name', '"Seller as AIF"', '"Estate of [Owner], by [Seller], Personal Representative"', 'This situation is forbidden — do not list'],
+        correct: 2,
+        explanation: 'When the owner has passed away and the seller has Probate/Executor authority, sign as: "Estate of [Owner name], by [Seller name], Personal Representative."'
+      },
+      {
+        id: 's12q4',
+        prompt: 'What document is required (in addition to ID/Tax Sheet/Deed) when the owner is an LLC?',
+        options: ['A notarized letter from the seller', 'LLC Operating Agreement or Articles of Organization', 'A court order', 'Nothing extra — ID alone is sufficient'],
+        correct: 1,
+        explanation: 'When the owner is an LLC, you need both personal ID (or Tax Sheet, Deed, or Title Statement) AND the LLC Operating Agreement or Articles of Organization.'
+      },
+      {
+        id: 's12q5',
+        prompt: 'A seller says they have an AIF (Attorney-in-Fact) document. Is this sufficient to list the property?',
+        options: ['Yes — AIF is equivalent to a full Power of Attorney', 'No — an AIF document alone is legally too limited and does not authorize transfer of ownership', 'Yes, if the property is in Florida or Texas', 'Only if the document is notarized'],
+        correct: 1,
+        explanation: 'An AIF (Attorney-in-Fact) document alone is not enough. It is legally too limited and does not authorize transfer of ownership. This scenario is listed as Forbidden in the signature table.'
+      },
+      {
+        id: 's12q6',
+        prompt: 'The deed has not yet been updated by the county to show the new owner\'s name. Can you proceed?',
+        options: ['No — you must wait until the county updates the record', 'Yes — counties can take 2–3 months to update records. If the seller is the owner, you can proceed', 'Only if Yaelyn approves it', 'No — this is an Incomplete case'],
+        correct: 1,
+        explanation: 'A deed not yet updated by the county is acceptable. Counties can take 2–3 months to update records after an ownership transfer. If the seller is the legitimate owner, you can proceed.'
+      },
+      {
+        id: 's12q7',
+        prompt: 'A seller has a Purchase and Sale Agreement (PSA) and the property is in Illinois. What do you do?',
+        options: ['List it — PSA is valid in all states', 'Refuse — PSA-based listings are Forbidden in Illinois, SC, and OK', 'List it only if the seller is also the broker', 'Ask Yaelyn for a case-by-case exception'],
+        correct: 1,
+        explanation: 'PSA-based listings where the seller name does not match the owner are Forbidden in IL, SC, and OK by state law. Do not list — escalate to Yaelyn.'
       }
     ]
   },
   13: {
     title: 'Knowledge Check · List on MLS',
+    displayCount: 4,
     questions: [
       {
-        id: 's7q1',
+        id: 's13q1',
         prompt: 'Before logging into any MLS, what must you always verify first?',
         options: ['The seller has uploaded photos to the questionnaire', 'The MLS shows a green dot and you have reserved your session', 'You have Yaelyn\'s approval to list', 'The parcel number is confirmed by the county'],
         correct: 1,
         explanation: 'The MLS must show a green dot (available) and you must reserve your session (20 min for new listings) before logging in to prevent simultaneous access.'
       },
       {
-        id: 's7q2',
+        id: 's13q2',
         prompt: 'When should you publish/activate a listing after completing all steps?',
         options: ['After the seller confirms they are ready', 'After getting manager approval', 'Immediately — no waiting for client confirmation', 'Within 24 hours of completing the entry'],
         correct: 2,
         explanation: 'Publish directly and immediately. No waiting for client confirmation or approval. We strive for same-day listing with a 48-hour maximum turnaround.'
+      },
+      {
+        id: 's13q3',
+        prompt: 'The automation gets stuck during Step 4. What is the correct action?',
+        options: ['Keep retrying the automation until it works', 'Set status to "Automation Error" and report to #Tech on Cliq with the listing ID and MLS name', 'Cancel the listing and ask the seller to resubmit', 'Skip the automation and enter everything manually without reporting'],
+        correct: 1,
+        explanation: 'If automation is stuck, set status to "Automation Error" and immediately report to #Tech on Cliq with the listing ID. Do not leave the MLS reserved if not actively working in it.'
+      },
+      {
+        id: 's13q4',
+        prompt: 'After entering all listing data and publishing, what three final actions must you complete?',
+        options: ['Email the seller, update the CRM, and call Yaelyn', 'Save MLS Reference (MLS Name + Number), Upload MLS PDF, and Mark as Active', 'Upload the Beycome Listing Agreement, notify the seller, and close the tab', 'Take a screenshot, email the seller, and update the queue'],
+        correct: 1,
+        explanation: 'The three required final steps are: (1) Save MLS Reference with MLS Name and Number, (2) Upload MLS PDF from the MLS property detail page, and (3) Mark as Active to trigger the seller notification.'
+      },
+      {
+        id: 's13q5',
+        prompt: 'The MLS has a technical issue and you cannot complete the listing. After setting Automation Error, what alternative should you propose?',
+        options: ['Ask the seller to list on a different platform themselves', 'Propose listing on My State MLS as a temporary alternative and report to #Tech', 'Wait until the next business day and try again', 'Cancel the order and issue a refund'],
+        correct: 1,
+        explanation: 'If the MLS has a technical issue, set status to "Automation Error", report to #Tech on Cliq, and propose listing on My State MLS temporarily until the issue is resolved. No client confirmation needed — send email via BO.'
+      },
+      {
+        id: 's13q6',
+        prompt: 'Why must you configure ShowingTime or BrokerBay for every listing?',
+        options: ['It is optional — only for Concierge package sellers', 'Because buyers\' agents use it to schedule showings; missing it means the seller misses all showing requests', 'The MLS requires it only in Florida and Texas', 'To track analytics on how many views the listing gets'],
+        correct: 1,
+        explanation: 'ShowingTime (or BrokerBay) is how buyers\' agents schedule showings. If you skip it, the seller will not receive any showing requests that come through the MLS system — a critical failure.'
+      },
+      {
+        id: 's13q7',
+        prompt: 'You need to reserve the MLS for creating a brand-new listing (Step 4). How long should you reserve it?',
+        options: ['5 minutes', '20 minutes', '1 hour', 'No reservation needed for new listings'],
+        correct: 1,
+        explanation: 'Reserve 20 min for creating a new listing (Step 4). Reserve 5 min only for quick updates. Always check the green dot before reserving.'
       }
     ]
   },
   3: {
     title: 'Knowledge Check · Photo Rules',
+    displayCount: 4,
     questions: [
       {
-        id: 's10q1',
+        id: 's3q1',
         prompt: 'What is the minimum number of photos required for a residential listing on HAR (Houston, Texas)?',
         options: ['1', '3', '6', '10'],
         correct: 2,
         explanation: 'HAR requires a minimum of 6 photos for residential listings. Most other MLS require 3. Land requires 1.'
       },
       {
-        id: 's10q2',
+        id: 's3q2',
         prompt: 'A seller submitted a photo of their swimming pool as the primary/first photo. What do you do?',
         options: ['Keep it — pools are a strong selling feature', 'Replace it — first photo must be front exterior, rendering, aerial, or water view. A pool does not qualify as a water view.', 'Ask the seller if they want to change it before listing', 'It depends on which MLS — some allow it'],
         correct: 1,
         explanation: 'A swimming pool photo does not qualify as a water view. The first photo must be a front exterior, rendering, aerial photo, or actual water view. Replace it with a compliant photo.'
+      },
+      {
+        id: 's3q3',
+        prompt: 'Which of the following is forbidden in photos?',
+        options: ['A photo showing the backyard', 'A photo that includes a visible watermark or logo', 'An aerial photo of the property', 'A rendering of the property for new construction'],
+        correct: 1,
+        explanation: 'Watermarks and logos are forbidden in MLS photos. Also forbidden: yard signs, brand names, faces of people, political content, and street view screenshots.'
+      },
+      {
+        id: 's3q4',
+        prompt: 'A seller uploaded 15 photos. In what order must you upload them to the MLS?',
+        options: ['Any order — the MLS will auto-sort them', 'Best photo first, then the rest in any order', 'The exact same order the seller submitted them in the questionnaire', 'Alphabetically by room name'],
+        correct: 2,
+        explanation: 'Photos must be uploaded to the MLS in the exact same order the seller submitted them in the questionnaire. Do not reorder.'
+      },
+      {
+        id: 's3q5',
+        prompt: 'Which MLS allows any photo as the primary photo as long as an exterior photo is included somewhere in the set?',
+        options: ['HAR (Houston MLS)', 'Realtracs MLS, Florida GulfCoast MLS, Miami MLS, NABOR, SWVAR MLS, and Beaches MLS', 'NTREIS (North Texas)', 'All MLS allow this'],
+        correct: 1,
+        explanation: 'Realtracs MLS, Florida GulfCoast MLS, Miami MLS, NABOR, SWVAR MLS, and Beaches MLS allow any primary photo as long as an exterior photo is included somewhere in the set.'
+      },
+      {
+        id: 's3q6',
+        prompt: 'What is the minimum photo requirement for a land listing on most MLS?',
+        options: ['3 photos', '6 photos', '1 photo', 'No photos required for land'],
+        correct: 2,
+        explanation: 'Land listings require a minimum of 1 photo on most MLS. Residential listings typically require 3, and HAR requires 6 for residential.'
+      },
+      {
+        id: 's3q7',
+        prompt: 'A seller submitted virtually staged photos (furniture was digitally added). What must you do?',
+        options: ['Delete the virtually staged photos — they are not allowed', 'Check the "Virtually Staged" checkbox for any photos that have been altered', 'Upload them normally — virtual staging is invisible to the MLS', 'Ask Yaelyn for approval before uploading any virtually staged photos'],
+        correct: 1,
+        explanation: 'Virtually staged photos (sky changed, grass colored, furniture added, etc.) must be marked — check the "Virtually Staged" checkbox in the MLS for those photos.'
       }
     ]
   },
   5: {
     title: 'Knowledge Check · Forbidden Types & Concierge',
+    displayCount: 4,
     questions: [
       {
-        id: 's12q1',
+        id: 's5q1',
         prompt: 'A seller wants to list their property as an auction. What is the correct response?',
         options: ['Accept it if they have the Concierge package', 'Refuse — auctions are absolutely forbidden with no exceptions and no packages', 'Ask Yaelyn for a case-by-case approval', 'List on My State MLS instead, which may allow it'],
         correct: 1,
         explanation: 'Auctions are absolutely forbidden — no package, no exception, no workaround. Same applies to Tax Lien Sale, Foreclosure, and Remainderman\'s right.'
       },
       {
-        id: 's12q2',
+        id: 's5q2',
         prompt: 'A seller says their property is a wholesale/equitable interest deal and they are in Illinois. What do you do?',
         options: ['List it — wholesale is only restricted on some MLS', 'Refuse — wholesale is forbidden by state law in Illinois', 'Ask Yaelyn for a case-by-case exception', 'List on My State MLS instead'],
         correct: 1,
         explanation: 'Wholesale/Equitable Interest is forbidden by state law in Illinois. It is also forbidden in SC, DC, MA, MD, NJ, NY, OK, PA, RI, UT, and WI. Escalate to Yaelyn if a seller presents this situation.'
+      },
+      {
+        id: 's5q3',
+        prompt: 'Which of the following listing types is absolutely forbidden with NO exceptions?',
+        options: ['Mobile home without land ownership', 'Wholesale/Equitable Interest in Ohio', 'Tax Lien Sale', 'Land listing with only 1 photo'],
+        correct: 2,
+        explanation: 'Tax Lien Sale is one of the four absolutely forbidden listing types (along with Auction, Foreclosure, and Remainderman\'s right). No package, no exception. Wholesale in Ohio is allowed with an agreement signed by all parties.'
+      },
+      {
+        id: 's5q4',
+        prompt: 'A seller says they have a Novation agreement. How is Novation treated?',
+        options: ['Novation is always allowed — it is different from wholesale', 'Novation is treated as Wholesale and must follow wholesale rules', 'Novation is only allowed on Concierge package listings', 'Novation is a forbidden listing type with no exceptions'],
+        correct: 1,
+        explanation: 'Novation is treated as Wholesale. All wholesale rules and state restrictions apply to Novation agreements.'
+      },
+      {
+        id: 's5q5',
+        prompt: 'A seller in Ohio wants to list a wholesale/equitable interest deal. When is this allowed?',
+        options: ['Never — Ohio forbids wholesale entirely', 'Only if the seller has the Concierge package', 'Only if the agreement is signed by all parties', 'Only on My State MLS'],
+        correct: 2,
+        explanation: 'Ohio is an exception — wholesale is allowed only if the agreement is signed by all parties. This is different from states like IL, SC, MA, etc. where wholesale is completely forbidden.'
+      },
+      {
+        id: 's5q6',
+        prompt: 'You encounter a Foreclosure listing request. What do you do?',
+        options: ['List it if the seller provides proper documentation', 'Refuse — Foreclosure is absolutely forbidden with no exceptions', 'Ask Yaelyn for approval on a case-by-case basis', 'Only refuse if it is in one of the restricted states'],
+        correct: 1,
+        explanation: 'Foreclosure is one of four absolutely forbidden listing types. No exceptions, no packages, no state-by-state differences. Escalate to Yaelyn if a seller requests this.'
+      },
+      {
+        id: 's5q7',
+        prompt: 'A seller says their property is a mobile home without land ownership, and the listing is in California. Can you list it?',
+        options: ['No — mobile homes without land are forbidden on all MLS', 'Yes — California is one of the allowed exceptions for mobile homes without land ownership', 'Only if they have the Concierge package', 'Only if it is listed on My State MLS'],
+        correct: 1,
+        explanation: 'Mobile homes without land ownership are forbidden on most MLS, but California (all MLS) is an exception. Other exceptions include My State MLS, Citrus MLS, Coastal Carolinas MLS, Keys MLS, Bright MLS VA, RealComp MLS, and Northstar MLS.'
       }
     ]
   },
   16: {
     title: 'Final Certification · MLS Data Entry',
+    displayCount: 8,
     questions: [
       {
         id: 's16q1',
@@ -1428,6 +1699,62 @@ const quizConfig = {
         options: ['List it — one signature is enough with seller\'s verbal confirmation', 'List it and note the issue for later', 'Set Incomplete "Missing Signature," notify the client, and do not list until both owners have signed', 'Escalate to Yaelyn and let her decide whether to list'],
         correct: 2,
         explanation: 'Ownership verification is non-negotiable. Both owners must sign before listing. No amount of seller pressure changes this. Set Incomplete and notify the client.'
+      },
+      {
+        id: 's16q5',
+        prompt: 'Before logging into any MLS, what two things must always be true?',
+        options: ['The seller has approved the listing and Yaelyn has been notified', 'You are connected to the Beycome VPN (Miami exit node) AND the MLS shows a green dot with your session reserved', 'The listing has been self-assigned and the parcel number confirmed', 'All disclosures have been uploaded and photos verified'],
+        correct: 1,
+        explanation: 'Two things must always be true before accessing any MLS: (1) You are on the Beycome VPN with Miami exit node, and (2) The MLS shows a green dot and your session is reserved.'
+      },
+      {
+        id: 's16q6',
+        prompt: 'Which of the following listing types is absolutely forbidden with no exceptions?',
+        options: ['Mobile home without land in California', 'Wholesale in Ohio with all-party agreement', 'Remainderman\'s right', 'Wholesale on Stellar MLS (Florida)'],
+        correct: 2,
+        explanation: 'Remainderman\'s right is one of four absolutely forbidden listing types (Auction, Tax Lien Sale, Foreclosure, Remainderman\'s right). No exceptions, no packages. Mobile home without land is allowed in CA; Ohio wholesale is allowed with all-party agreement; Stellar MLS is a MLS restriction, not an absolute ban.'
+      },
+      {
+        id: 's16q7',
+        prompt: 'The seller is the owner of "Oak Creek LLC" and their name on the agreement is "Robert Doe." How should the listing agreement be signed?',
+        options: ['"Robert Doe" only — his name is sufficient', '"Oak Creek LLC" only', '"Robert Doe for Oak Creek LLC" (Seller for Company name)', '"Robert Doe as AIF"'],
+        correct: 2,
+        explanation: 'When the owner is an LLC, the agreement is signed as "Seller for Company name" — in this case "Robert Doe for Oak Creek LLC."'
+      },
+      {
+        id: 's16q8',
+        prompt: 'What is ShowingTime used for, and what happens if you skip it?',
+        options: ['It tracks photo uploads — skipping it delays photo processing', 'It manages MLS session reservations — skipping it may cause simultaneous logins', 'It allows buyers\' agents to schedule showings — skipping it means the seller misses all MLS showing requests', 'It sends the listing agreement to the seller for signature'],
+        correct: 2,
+        explanation: 'ShowingTime (or BrokerBay) is the showing scheduling system. If you skip configuring it, buyers\' agents cannot schedule showings and the seller misses every showing request that comes through the MLS.'
+      },
+      {
+        id: 's16q9',
+        prompt: 'A North Carolina property needs a floor plan. The seller says they have a photo of a sketch they made themselves. Is this acceptable?',
+        options: ['Yes — any floor plan documentation is accepted', 'No — NC requires a certified floor plan from a certified professional, appraiser, or CubiCasa app. A personal sketch is not valid.', 'Yes, if it includes room dimensions', 'Only for residential properties under 2,000 sq ft'],
+        correct: 1,
+        explanation: 'North Carolina requires a certified floor plan. Accepted sources: NC certified floor plan professional, NC certified appraiser, CubiCasa app, or a floor plan certified by a professional (not older than 30 days, with room measurements, date, and author). A personal sketch is not sufficient.'
+      },
+      {
+        id: 's16q10',
+        prompt: 'After activating a listing, how long should it take to appear on Zillow, Realtor.com, and Redfin?',
+        options: ['Instantly — it syncs in real time', 'Within 2 hours — contact the portal directly if not synced after that', '24–48 hours — syndication is slow by design', 'It never syncs automatically — you must submit to each portal manually'],
+        correct: 1,
+        explanation: 'After activating, the listing should appear on Zillow, Realtor.com, Redfin, and other portals within 2 hours. If not synced after 2 hours, contact the portal directly.'
+      },
+      {
+        id: 's16q11',
+        prompt: 'A listing description written by the seller says: "Perfect for families — great location, ideal for seasonal workers." What must you do?',
+        options: ['Publish it as-is — it is the seller\'s words', 'Remove the forbidden words "perfect for," "ideal for," and "seasonal worker" before publishing', 'Ask the seller to rewrite it entirely before you can proceed', 'Only remove "seasonal worker" — the others are acceptable'],
+        correct: 1,
+        explanation: '"Perfect for," "ideal for," and "seasonal worker" are all forbidden words in MLS descriptions. You must remove them before publishing. Other forbidden words include: "FSBO," "commission," "vacation," "safest," etc.'
+      },
+      {
+        id: 's16q12',
+        prompt: 'What is the listing service type that must always be used, with limited exceptions?',
+        options: ['Full Service', 'Limited Service', 'Open Listing', 'Exclusive Agency'],
+        correct: 1,
+        explanation: 'Listing Service must always be set to "Limited Service." Exceptions: Illinois requires more broker duties per state law; Indiana requires broker attendance at closing.'
       }
     ]
   }
@@ -1438,12 +1765,12 @@ const ASSESSMENT_SECTIONS = new Set([15, 16]);
 
 const badgeConfig = [
   { id: 'first-steps', title: 'First Steps', icon: '🚀', rule: state => state.visitedSections.length >= 3 },
-  { id: 'ownership-expert', title: 'Ownership Expert', icon: '🔐', rule: state => { const a = state.quizAttempts['12']; return a && a.correctCount === a.total; } },
+  { id: 'ownership-expert', title: 'Ownership Expert', icon: '🔐', rule: state => { const a = state.quizAttempts['12']; return a && a.passed; } },
   { id: 'mls-ready', title: 'MLS Ready', icon: '🏠', rule: state => state.visitedSections.includes(13) },
-  { id: 'photo-pro', title: 'Photo Pro', icon: '📸', rule: state => { const a = state.quizAttempts['3']; return a && a.correctCount === a.total; } },
-  { id: 'rule-master', title: 'Rule Master', icon: '📋', rule: state => { const a = state.quizAttempts['5']; return a && a.correctCount === a.total; } },
-  { id: 'certified', title: 'MLS Certified', icon: '🎓', rule: state => !!state.quizAttempts['16'] },
-  { id: 'perfect-run', title: 'Perfect Run', icon: '⭐', rule: state => QUIZ_SECTIONS.size > 0 && [...QUIZ_SECTIONS].every(sid => { const a = state.quizAttempts[String(sid)]; return a && a.correctCount === a.total; }) }
+  { id: 'photo-pro', title: 'Photo Pro', icon: '📸', rule: state => { const a = state.quizAttempts['3']; return a && a.passed; } },
+  { id: 'rule-master', title: 'Rule Master', icon: '📋', rule: state => { const a = state.quizAttempts['5']; return a && a.passed; } },
+  { id: 'certified', title: 'MLS Certified', icon: '🎓', rule: state => { const a = state.quizAttempts['16']; return a && a.passed; } },
+  { id: 'perfect-run', title: 'Perfect Run', icon: '⭐', rule: state => QUIZ_SECTIONS.size > 0 && [...QUIZ_SECTIONS].every(sid => { const a = state.quizAttempts[String(sid)]; return a && a.passed; }) }
 ];
 
 // ── State management ─────────────────────────────────────────────────────────
@@ -1469,11 +1796,13 @@ function saveState() {
 function goHome() {
   document.getElementById('welcome-view').classList.add('active');
   document.getElementById('content-view').classList.remove('active');
+  document.getElementById('quick-ref-btn').style.display = 'none';
 }
 
 function startTraining() {
   document.getElementById('welcome-view').classList.remove('active');
   document.getElementById('content-view').classList.add('active');
+  document.getElementById('quick-ref-btn').style.display = 'block';
   appState.started = true;
   saveState();
   displayPage(appState.currentPage || 1);
@@ -1493,12 +1822,38 @@ function buildTOC() {
 function buildJumpNav() {
   const nav = document.getElementById('jump-nav');
   if (!nav) return;
-  nav.innerHTML = sections.map((s, i) => {
-    const page = i + 1;
-    const done = appState.completedSections.includes(s.id);
-    const active = page === currentPage;
-    return `<button class="jump-link${active ? ' active' : ''}${done ? ' done' : ''}" onclick="displayPage(${page})">${page}. ${s.title}</button>`;
-  }).join('');
+  // Preserve search input if it exists
+  const existingSearch = nav.querySelector('#section-search');
+  const searchVal = existingSearch ? existingSearch.value : '';
+
+  nav.innerHTML = `
+    <div style="padding:0 0 10px 0;">
+      <input id="section-search" type="text" placeholder="🔍 Search sections..."
+        oninput="filterJumpNav(this.value)"
+        style="width:100%;padding:8px 10px;border-radius:6px;border:1px solid #ddd;font-size:12px;box-sizing:border-box;">
+    </div>
+    <div id="jump-nav-list">
+      ${sections.map((s, i) => {
+        const page = i + 1;
+        const done = appState.completedSections.includes(s.id);
+        const active = page === currentPage;
+        return `<button class="jump-link${active ? ' active' : ''}${done ? ' done' : ''}" onclick="displayPage(${page})">${page}. ${s.title}</button>`;
+      }).join('')}
+    </div>
+  `;
+
+  if (searchVal) {
+    document.getElementById('section-search').value = searchVal;
+    filterJumpNav(searchVal);
+  }
+}
+
+function filterJumpNav(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#jump-nav-list .jump-link').forEach(btn => {
+    const text = btn.textContent.toLowerCase();
+    btn.style.display = (!q || text.includes(q)) ? '' : 'none';
+  });
 }
 
 function updateStats() {
@@ -1520,10 +1875,16 @@ function updateStats() {
 
 function markVisited(sectionId) {
   if (!appState.visitedSections.includes(sectionId)) appState.visitedSections.push(sectionId);
-  if (!ASSESSMENT_SECTIONS.has(sectionId) && !appState.completedSections.includes(sectionId)) {
+  // Auto-complete only non-quiz sections on visit
+  if (!QUIZ_SECTIONS.has(sectionId) && !appState.completedSections.includes(sectionId)) {
     appState.completedSections.push(sectionId);
   }
   saveState();
+}
+
+function isQuizPassed(sectionId) {
+  const attempt = appState.quizAttempts[String(sectionId)];
+  return attempt && attempt.passed === true;
 }
 
 function displayPage(pageNum) {
@@ -1540,7 +1901,19 @@ function displayPage(pageNum) {
   document.getElementById('current-page-num').textContent = pageNum;
   document.getElementById('total-pages').textContent = sections.length;
   document.getElementById('prev-btn').disabled = pageNum === 1;
-  document.getElementById('next-btn').disabled = pageNum === sections.length;
+
+  // Next button: disable if this is a quiz section and not yet passed
+  const nextBtn = document.getElementById('next-btn');
+  if (pageNum === sections.length) {
+    nextBtn.disabled = true;
+    nextBtn.title = '';
+  } else if (QUIZ_SECTIONS.has(section.id) && !isQuizPassed(section.id)) {
+    nextBtn.disabled = true;
+    nextBtn.title = 'Complete and pass this section\'s quiz to continue.';
+  } else {
+    nextBtn.disabled = false;
+    nextBtn.title = '';
+  }
 
   buildJumpNav();
   updateStats();
@@ -1552,7 +1925,7 @@ function displayPage(pageNum) {
 function renderAssessments(sectionId) {
   if (sectionId === 16) {
     renderCertProgress();
-    if (appState.quizAttempts['16']) { showCertificate(); return; }
+    if (isQuizPassed(16)) { showCertificate(); return; }
   }
   if (quizConfig[sectionId]) renderQuiz(sectionId);
 }
@@ -1563,12 +1936,12 @@ function renderCertProgress() {
   const total = sections.length;
   const completed = appState.completedSections.length;
   const quizSections = [...QUIZ_SECTIONS];
-  const quizCompleted = quizSections.filter(sid => appState.quizAttempts[String(sid)]).length;
+  const quizCompleted = quizSections.filter(sid => isQuizPassed(sid)).length;
   block.innerHTML = `
     <table>
       <tbody>
         <tr><td>Sections read</td><td><strong>${completed} / ${total}</strong></td></tr>
-        <tr><td>Quizzes completed</td><td><strong>${quizCompleted} / ${QUIZ_SECTIONS.size}</strong></td></tr>
+        <tr><td>Quizzes passed (≥80%)</td><td><strong>${quizCompleted} / ${QUIZ_SECTIONS.size}</strong></td></tr>
       </tbody>
     </table>
   `;
@@ -1585,7 +1958,7 @@ function showCertificate() {
   const container = document.getElementById('content-container');
   const attempt = appState.quizAttempts['16'];
   const score = attempt ? attempt.correctCount : 0;
-  const total = attempt ? attempt.total : 4;
+  const total = attempt ? attempt.total : 8;
   const allAttempts = Object.values(appState.quizAttempts);
   const totalCorrect = allAttempts.reduce((sum, a) => sum + (a.correctCount || 0), 0);
   const totalQ = allAttempts.reduce((sum, a) => sum + (a.total || 0), 0);
@@ -1593,22 +1966,35 @@ function showCertificate() {
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   container.innerHTML += `
-    <div style="margin-top:40px;border:2px solid var(--indigo);border-radius:16px;padding:40px;text-align:center;background:linear-gradient(135deg,#f4f6ff 0%,#fff 60%,#fff2ec 100%);">
-      <div style="font-size:48px;margin-bottom:12px;">🎓</div>
-      <h2 style="font-size:24px;font-weight:900;color:var(--navy);margin-bottom:6px;">MLS Data Entry Certified</h2>
-      <p style="color:var(--muted);font-size:14px;margin-bottom:28px;">Beycome MLS Team · ${today}</p>
-      <div style="display:flex;justify-content:center;gap:40px;margin-bottom:28px;flex-wrap:wrap;">
-        <div><span style="font-size:32px;font-weight:900;color:var(--indigo);">${score}/${total}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Final Quiz</span></div>
-        <div><span style="font-size:32px;font-weight:900;color:var(--coral);">${totalCorrect}/${totalQ}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Overall Score</span></div>
-        <div><span style="font-size:32px;font-weight:900;color:var(--navy);">${earnedBadges.length}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Badges Earned</span></div>
+    <div id="print-cert-wrapper">
+      <div style="margin-top:40px;border:2px solid var(--indigo);border-radius:16px;padding:40px;text-align:center;background:linear-gradient(135deg,#f4f6ff 0%,#fff 60%,#fff2ec 100%);">
+        <div style="font-size:48px;margin-bottom:12px;">🎓</div>
+        <h2 style="font-size:24px;font-weight:900;color:var(--navy);margin-bottom:6px;">MLS Data Entry Certified</h2>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:28px;">Beycome MLS Team · ${today}</p>
+        <div style="display:flex;justify-content:center;gap:40px;margin-bottom:28px;flex-wrap:wrap;">
+          <div><span style="font-size:32px;font-weight:900;color:var(--indigo);">${score}/${total}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Final Quiz</span></div>
+          <div><span style="font-size:32px;font-weight:900;color:var(--coral);">${totalCorrect}/${totalQ}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Overall Score</span></div>
+          <div><span style="font-size:32px;font-weight:900;color:var(--navy);">${earnedBadges.length}</span><br><span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;">Badges Earned</span></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px;">
+          ${earnedBadges.map(b => `<div class="badge"><span class="badge-icon">${b.icon}</span>${b.title}</div>`).join('')}
+        </div>
+        <p style="font-size:14px;color:var(--navy-soft);max-width:420px;margin:0 auto 24px;">You have completed the Beycome MLS Data Entry training. You are ready to list. When in doubt, contact <strong>Yaelyn on Cliq</strong>.</p>
+        <button onclick="window.print()" style="margin-top:0;margin-right:10px;padding:10px 24px;background:var(--coral);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">🖨 Print Certificate</button>
+        <button class="mini-button ghost" onclick="resetFinalQuiz()" style="font-size:13px;">Retake Final Quiz</button>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px;">
-        ${earnedBadges.map(b => `<div class="badge"><span class="badge-icon">${b.icon}</span>${b.title}</div>`).join('')}
-      </div>
-      <p style="font-size:14px;color:var(--navy-soft);max-width:420px;margin:0 auto 24px;">You have completed the Beycome MLS Data Entry training. You are ready to list. When in doubt, contact <strong>Yaelyn on Cliq</strong>.</p>
-      <button class="mini-button ghost" onclick="resetFinalQuiz()" style="font-size:13px;">Retake Final Quiz</button>
     </div>
   `;
+}
+
+// ── Quiz helpers ──────────────────────────────────────────────────────────────
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function renderQuiz(sectionId) {
@@ -1616,13 +2002,35 @@ function renderQuiz(sectionId) {
   if (!quiz) return;
   const container = document.getElementById('content-container');
   const prior = appState.quizAttempts[String(sectionId)];
+  const displayCount = quiz.displayCount || quiz.questions.length;
+
+  // Determine which questions to show
+  let selectedQuestions;
+  if (prior && prior.selectedIds && prior.selectedIds.length > 0) {
+    // Retake within session — use same questions
+    const idSet = new Set(prior.selectedIds);
+    selectedQuestions = quiz.questions.filter(q => idSet.has(q.id));
+    // Preserve order from selectedIds
+    selectedQuestions.sort((a, b) => prior.selectedIds.indexOf(a.id) - prior.selectedIds.indexOf(b.id));
+  } else {
+    // Fresh attempt — shuffle and pick displayCount
+    selectedQuestions = shuffleArray(quiz.questions).slice(0, displayCount);
+    // Store selectedIds in a pending state (will be saved on submit)
+    if (!appState.quizAttempts[String(sectionId)]) {
+      appState.quizAttempts[String(sectionId)] = { selectedIds: selectedQuestions.map(q => q.id) };
+      saveState();
+    } else {
+      appState.quizAttempts[String(sectionId)].selectedIds = selectedQuestions.map(q => q.id);
+      saveState();
+    }
+  }
 
   const wrapper = document.createElement('div');
   wrapper.className = 'assessment-block';
   wrapper.innerHTML = `
     <div class="assessment-header">📝 ${quiz.title}</div>
     <div class="assessment-body" id="quiz-body-${sectionId}">
-      ${quiz.questions.map((q, qi) => `
+      ${selectedQuestions.map((q, qi) => `
         <div class="quiz-question">
           <p>${qi + 1}. ${q.prompt}</p>
           ${q.options.map((opt, oi) => `
@@ -1634,31 +2042,50 @@ function renderQuiz(sectionId) {
           <div id="feedback-${sectionId}-${q.id}"></div>
         </div>
       `).join('')}
+      <div id="quiz-result-msg-${sectionId}" style="margin-bottom:10px;"></div>
       <button class="mini-button" onclick="submitQuiz(${sectionId})">Submit Answers</button>
       <button class="mini-button ghost" onclick="resetQuiz(${sectionId})">Retake</button>
-      <span class="status-text" id="quiz-status-${sectionId}">${prior ? `Score: ${prior.correctCount}/${prior.total}` : 'Not submitted yet'}</span>
+      <span class="status-text" id="quiz-status-${sectionId}">${prior && prior.correctCount !== undefined ? `Score: ${prior.correctCount}/${prior.total}` : 'Not submitted yet'}</span>
     </div>
   `;
   container.appendChild(wrapper);
 
   if (prior && prior.answers) {
-    quiz.questions.forEach(q => {
+    selectedQuestions.forEach(q => {
       const feedback = document.getElementById(`feedback-${sectionId}-${q.id}`);
       if (feedback && prior.answers[q.id] !== undefined) {
         const correct = prior.answers[q.id] === q.correct;
         feedback.innerHTML = `<div class="quiz-feedback ${correct ? 'correct' : 'incorrect'}">${correct ? '✓ Correct' : '✗ ' + q.explanation}</div>`;
       }
     });
+    // Show result message if already submitted
+    if (prior.correctCount !== undefined) {
+      showQuizResultMsg(sectionId, prior.correctCount, prior.total, prior.passed);
+    }
+  }
+}
+
+function showQuizResultMsg(sectionId, correctCount, total, passed) {
+  const msgEl = document.getElementById(`quiz-result-msg-${sectionId}`);
+  if (!msgEl) return;
+  if (passed) {
+    msgEl.innerHTML = `<div style="padding:10px 14px;background:#f0faf5;border-left:3px solid #22a06b;border-radius:8px;font-size:14px;color:#1b6b3a;font-weight:600;">✓ Passed! Score: ${correctCount}/${total} — you may continue.</div>`;
+  } else {
+    msgEl.innerHTML = `<div style="padding:10px 14px;background:#fdecea;border-left:3px solid #e53935;border-radius:8px;font-size:14px;color:#b71c1c;font-weight:600;">✗ Score: ${correctCount}/${total} — you need 80% to advance. Review the section and retake.</div>`;
   }
 }
 
 function submitQuiz(sectionId) {
   const quiz = quizConfig[sectionId];
+  const prior = appState.quizAttempts[String(sectionId)];
+  const selectedIds = prior && prior.selectedIds ? prior.selectedIds : quiz.questions.map(q => q.id);
+  const selectedQuestions = quiz.questions.filter(q => selectedIds.includes(q.id));
+
   let correctCount = 0;
   const answers = {};
   let allAnswered = true;
 
-  for (const q of quiz.questions) {
+  for (const q of selectedQuestions) {
     const selected = document.querySelector(`input[name="quiz-${sectionId}-${q.id}"]:checked`);
     if (!selected) { allAnswered = false; break; }
     const val = parseInt(selected.value);
@@ -1675,29 +2102,97 @@ function submitQuiz(sectionId) {
     return;
   }
 
-  appState.quizAttempts[String(sectionId)] = { correctCount, total: quiz.questions.length, answers };
-  if (!appState.completedSections.includes(sectionId)) appState.completedSections.push(sectionId);
+  const total = selectedQuestions.length;
+  const passed = correctCount / total >= PASSING_SCORE;
+
+  appState.quizAttempts[String(sectionId)] = {
+    correctCount,
+    total,
+    answers,
+    passed,
+    selectedIds
+  };
+
+  // Only add to completedSections if passed
+  if (passed && !appState.completedSections.includes(sectionId)) {
+    appState.completedSections.push(sectionId);
+  }
+
   saveState();
   updateStats();
 
   const status = document.getElementById(`quiz-status-${sectionId}`);
-  if (status) status.textContent = `Score: ${correctCount}/${quiz.questions.length}`;
+  if (status) status.textContent = `Score: ${correctCount}/${total}`;
+
+  showQuizResultMsg(sectionId, correctCount, total, passed);
+
+  // Re-evaluate next button
+  const nextBtn = document.getElementById('next-btn');
+  if (nextBtn && currentPage < sections.length) {
+    const section = sections[currentPage - 1];
+    if (QUIZ_SECTIONS.has(section.id) && !isQuizPassed(section.id)) {
+      nextBtn.disabled = true;
+      nextBtn.title = 'Complete and pass this section\'s quiz to continue.';
+    } else {
+      nextBtn.disabled = false;
+      nextBtn.title = '';
+    }
+  }
 
   if (sectionId === 16) {
-    setTimeout(() => showCertificate(), 600);
+    if (passed) {
+      setTimeout(() => showCertificate(), 600);
+    } else {
+      const msgEl = document.getElementById(`quiz-result-msg-${sectionId}`);
+      if (msgEl) {
+        msgEl.innerHTML = `<div style="padding:10px 14px;background:#fdecea;border-left:3px solid #e53935;border-radius:8px;font-size:14px;color:#b71c1c;font-weight:600;">✗ Score: ${correctCount}/${total} — you need 80% to earn your certificate. Retake below.</div>`;
+      }
+    }
   }
+
+  buildJumpNav();
 }
 
 function resetFinalQuiz() {
   delete appState.quizAttempts['16'];
+  if (appState.completedSections.includes(16)) {
+    appState.completedSections = appState.completedSections.filter(id => id !== 16);
+  }
   saveState();
   displayPage(16);
 }
 
 function resetQuiz(sectionId) {
   delete appState.quizAttempts[String(sectionId)];
+  if (appState.completedSections.includes(sectionId)) {
+    appState.completedSections = appState.completedSections.filter(id => id !== sectionId);
+  }
   saveState();
   displayPage(currentPage);
+}
+
+// ── State filter ──────────────────────────────────────────────────────────────
+function filterStateTable() {
+  const val = document.getElementById('state-filter').value;
+  document.querySelectorAll('#state-cards-wrapper .state-card[data-state]').forEach(card => {
+    card.style.display = (!val || card.dataset.state === val) ? '' : 'none';
+  });
+}
+
+// ── Quick Reference ───────────────────────────────────────────────────────────
+function toggleQuickRef() {
+  const m = document.getElementById('quick-ref-modal');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+
+function printQuickRef() {
+  const content = document.getElementById('quick-ref-content').innerHTML;
+  const win = window.open('', '_blank', 'width=800,height=900');
+  win.document.write(`<!DOCTYPE html><html><head><title>MLS Quick Reference</title>
+    <style>body{font-family:sans-serif;padding:40px;color:#333;}h2{color:#5a6ad4;}h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:#6C7480;margin-top:16px;}table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;}th{background:#3F4854;color:#fff;padding:8px 10px;text-align:left;}td{padding:8px 10px;border-bottom:1px solid #eee;}p{font-size:14px;margin-bottom:8px;}</style>
+    </head><body>${content}</body></html>`);
+  win.document.close();
+  win.print();
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -1706,6 +2201,7 @@ updateStats();
 if (appState.started) {
   document.getElementById('welcome-view').classList.remove('active');
   document.getElementById('content-view').classList.add('active');
+  document.getElementById('quick-ref-btn').style.display = 'block';
   displayPage(appState.currentPage || 1);
 }
 </script>
