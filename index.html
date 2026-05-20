@@ -174,8 +174,8 @@
 <header>
   <div class="header-top">
     <div class="logo" onclick="goHome()">
-      <span>beycome</span> <span style="color:var(--navy)">MLS</span>
-      <span style="font-size:13px;font-weight:500;color:var(--muted);margin-left:6px;">Data Entry Training</span>
+      <img src="beycome-logo.png" alt="beycome" style="height:32px;width:auto;display:block;">
+      <span style="font-size:13px;font-weight:500;color:var(--muted);margin-left:10px;">MLS Data Entry Training</span>
     </div>
     <div class="header-stats">
       <div class="stat"><span class="stat-val" id="stat-sections">0 / 16</span><span class="stat-label">Sections</span></div>
@@ -237,10 +237,10 @@ const sections = [
       <div class="content-body">
         <p class="lead">You are the accuracy layer between the seller and the MLS. What you enter is what goes live — on 50+ platforms simultaneously.</p>
         <h3>What this role is</h3>
-        <p>The MLS Data Entry team is responsible for taking a seller's completed MLS Questionnaire and listing their property on the correct MLS — completely, accurately, and within <strong>2 hours</strong> of receiving a completed questionnaire. When you make an error, it doesn't just affect one platform. It propagates to Zillow, Realtor.com, Redfin, and every other portal that syndicates from the MLS.</p>
+        <p>The MLS Data Entry team is responsible for taking a seller's completed MLS Questionnaire and listing their property on the correct MLS — completely, accurately, and as fast as possible. We strive for <strong>same-day listing</strong>. The maximum turnaround is <strong>48 hours</strong>. When you make an error, it doesn't just affect one platform. It propagates to Zillow, Realtor.com, Redfin, and every other portal that syndicates from the MLS.</p>
         <h3>What "good" looks like</h3>
         <ul>
-          <li><strong>Speed.</strong> Every listing must be published within 2 hours of a completed questionnaire. Delays beyond a day may require a new agreement to match the listing date and avoid MLS fines.</li>
+          <li><strong>Speed.</strong> Every listing must be published within 48 hours of a completed questionnaire. Delays beyond a day may require a new agreement to match the listing date and avoid MLS fines.</li>
           <li><strong>Zero-defect entry.</strong> Every field entered matches exactly what the seller provided. No guessing, no shortcuts.</li>
           <li><strong>Ownership verification before anything else.</strong> Never list a property without confirmed ownership documentation.</li>
           <li><strong>Immediate publish.</strong> No waiting for client confirmation after all steps are complete — publish directly.</li>
@@ -261,8 +261,8 @@ const sections = [
           </tbody>
         </table>
         <div class="callout warn">
-          <label>The 2-hour rule</label>
-          Listings must go live within 2 hours of receiving a completed MLS Questionnaire. If delayed by a day or more, a new listing agreement may be required to match the listing date and avoid MLS fines.
+          <label>Listing turnaround</label>
+          We strive for same-day listing. The maximum turnaround is <strong>48 hours</strong> from receiving a completed MLS Questionnaire. If delayed significantly, a new listing agreement may be required to match the listing date and avoid MLS fines.
         </div>
       </div>
     `
@@ -574,7 +574,7 @@ const sections = [
 
         <div class="callout warn">
           <label>Publish immediately — no waiting</label>
-          Once all steps are complete, activate the listing right away. Do not wait for the seller to confirm. Do not delay. The 2-hour rule applies from the moment you receive a completed questionnaire.
+          Once all steps are complete, activate the listing right away. Do not wait for the seller to confirm. We strive for same-day listing — maximum turnaround is 48 hours from receiving the completed questionnaire.
         </div>
 
         <h3>Automation issues</h3>
@@ -680,7 +680,7 @@ const sections = [
         <p class="lead">These rules apply to every listing, regardless of state or MLS. Violating them can result in MLS fines, listing removal, or legal liability.</p>
         <h3>Publication rules</h3>
         <ul>
-          <li><strong>Publish within 2 hours</strong> of receiving a completed MLS Questionnaire. Delays of a day or more may require a new listing agreement.</li>
+          <li><strong>Strive for same-day listing.</strong> Maximum turnaround is <strong>48 hours</strong> from receiving a completed MLS Questionnaire. Significant delays may require a new listing agreement.</li>
           <li><strong>Publish directly</strong> — no waiting for client confirmation, no asking for activation approval.</li>
           <li><strong>No "Coming Soon" or custom statuses</strong> — these require the Concierge package and extra compliance care. Do not set these without authorization.</li>
           <li><strong>No delayed publication</strong> — if a client is not ready, they should not finalize the questionnaire. Once done, list immediately.</li>
@@ -1226,7 +1226,7 @@ const sections = [
             </tr>
             <tr>
               <td>10</td>
-              <td><strong>Not publishing within 2 hours</strong></td>
+              <td><strong>Not publishing same day (or within 48 hours)</strong></td>
               <td>MLS compliance issue. A delay of a day or more may require a new listing agreement to match the listing date.</td>
               <td>Prioritize new listings. Start as soon as you pick one up. If you hit a block, set the correct status and notify Yaelyn immediately — do not let it sit.</td>
             </tr>
@@ -1362,7 +1362,7 @@ const quizConfig = {
         prompt: 'When should you publish/activate a listing after completing all steps?',
         options: ['After the seller confirms they are ready', 'After getting manager approval', 'Immediately — no waiting for client confirmation', 'Within 24 hours of completing the entry'],
         correct: 2,
-        explanation: 'Publish directly and immediately. No waiting for client confirmation or approval. The 2-hour rule applies from when the questionnaire was completed.'
+        explanation: 'Publish directly and immediately. No waiting for client confirmation or approval. We strive for same-day listing with a 48-hour maximum turnaround.'
       }
     ]
   },
@@ -1410,9 +1410,9 @@ const quizConfig = {
       {
         id: 's16q1',
         prompt: 'What is the maximum time allowed to publish a listing after receiving a completed MLS Questionnaire?',
-        options: ['24 hours', '48 hours — 2 business days', '2 hours', 'Same business day by 5pm'],
-        correct: 2,
-        explanation: 'Listings must be published within 2 hours of receiving a completed questionnaire. Delays of a day or more may require a new listing agreement.'
+        options: ['7 business days', '48 hours — same day is the goal', '1 week', 'Only when the seller confirms they are ready'],
+        correct: 1,
+        explanation: 'We strive for same-day listing. The maximum turnaround is 48 hours from receiving a completed questionnaire. Significant delays may require a new listing agreement.'
       },
       {
         id: 's16q2',
